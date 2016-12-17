@@ -1,0 +1,24 @@
+---
+layout: default
+---
+
+<!-- Posts -->
+{% for post in paginator.posts %}
+
+<div class="title"><a href="{{ post.url }}">{{ post.title }}</a></div>
+<div class="date">{{ post.date|date:site.date_format }}</div>
+<div class="content">
+	{{ post.content|markdownify|footnotes:post.date  }}
+</div>
+{% endfor %}
+
+<div class="footer" style="min-height: 30px">
+	<!-- Pagination -->
+	{% if paginator.previous_page %}
+	<a href="{{ paginator.previous_page_path }}" class="previous">← previous</a>
+	{% endif %}
+		  
+	{% if paginator.next_page %}
+	<div style="float: right;"><a href="{{ paginator.next_page_path }}" class="next">more →</a></div>
+	{% endif %}
+</div>

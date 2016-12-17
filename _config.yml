@@ -1,0 +1,8 @@
+# Site settings
+title: "bytesized.co"
+description: >
+  by Peter Zignego
+
+url: "www.bytesized.co"
+date_format: "MM.dd.yyyy"
+paginate: 5
