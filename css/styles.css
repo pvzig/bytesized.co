@@ -7,18 +7,33 @@ body {
 	padding: 16px;
 }
 
-h2 {
-	font-family:'Range Mono', monospace;
+.content {
+	font-family: 'Ringside Regular SSm A', 'Ringside Regular SSm B', 'Helvetica', sans-serf;
+}
+
+h1 {
+	font-size: 26px;
+	font-weight: 300;
 	color: black;
-	font-weight: 400;
-	font-size: 20px !important;	
+	padding: 30px 0px 0px 0px;
+}
+
+h2 {
+	font-size: 20px;	
+	font-weight: 300;
+	color: black;
+}
+
+h3 {
+	font-size: 20px;
+	font-weight: 300;
+	color: #484848;
 }
 
 p {
-	font-family:'Range Mono', monospace;
-	color: black;
-	font-weight: 100;
+	font-weight: 300;
 	font-size: 16px;
+	color: black;
 	line-height: 26px;
 }
 
@@ -27,10 +42,7 @@ ul {
 }
 
 li {
-	font-family:'Range Mono', monospace;
-	color: black;
-	font-weight: 100;
-	font-size: 16px;
+	font-weight: 300;
 	line-height: 30px;
 }
 
@@ -45,11 +57,14 @@ blockquote {
     margin-bottom: 1em;
     margin-left: 40px;
     margin-right: 40px;
-    font-family:'Range Mono', monospace;
 	color: black;
-	font-weight: 100;
+	font-weight: 300;
 	font-size: 16px;
 	line-height: 26px;
+}
+
+sup a {
+	border-bottom: none !important;
 }
 
 a {
@@ -65,10 +80,10 @@ a:hover {
 }
 
 .header {
-	font-family:'Range Mono', monospace;
-	color: black;
-	font-weight: 400;
+	font-family: 'Gotham SSm A', 'Gotham SSm B', 'Helvetica', sans-serif;
+	font-weight: 700;
 	font-size: 40px;
+	color: black;
 	padding: 16px 0px 0px 0px;
 	text-align: left;
 }
@@ -86,20 +101,20 @@ a:hover {
 }
 
 .byline {
-	font-family:'Range Mono', monospace;
-	color: black;
+	font-family: 'Gotham SSm A', 'Gotham SSm B', 'Helvetica', sans-serif;
 	font-weight: 400;
 	font-size: 14px;
+	color: black;
 	text-align: left;
 	padding-bottom: 16px;
 }
 
 .title {
-	font-family:'Range Mono', monospace;
-	color: black;
+	font-family: 'Operator Mono SSm A', 'Operator Mono SSm B', monospace;
 	font-weight: 400;
-	padding: 30px 0px 0px 0px;
 	font-size: 26px;
+	color: black;
+	padding: 30px 0px 0px 0px;
 }
 
 .title a {
@@ -115,22 +130,21 @@ a:hover {
 }
 
 .date {
-	font-family:'Range Mono', monospace;
-	color: #C4C4C4;
-	font-weight: 100;
+	font-family: 'Operator Mono SSm A', 'Operator Mono SSm B', monospace;
+	font-weight: 300;
 	font-size: 16px;
+	color: #C4C4C4;
 	padding: 5px 0px 0px 0px;
 }
 
 .footer {
-	font-family:'Range Mono', monospace;
-	color: #C4C4C4;
-	font-weight: 100;
+	font-family: 'Ringside Regular SSm A', 'Ringside Regular SSm B', 'Helvetica', sans-serf;
+	font-weight: 300;
 	font-size: 12px;
+	color: #C4C4C4;
 }
 
 .footer a {
-	font-family:'Range Mono', monospace;
 	font-size: 14px;
 	color: #EB212E;
 	text-decoration: none;
@@ -138,7 +152,6 @@ a:hover {
 }
 
 .footer a:hover {
-	font-family:'Range Mono', monospace;
 	font-size: 14px;
 	color: #EB212E;
 	text-decoration: none;
@@ -154,6 +167,7 @@ pre {
 }
 
 code {
-	font-family:'SF Mono', monospace !important;
+	font-family: 'Operator Mono SSm A', 'Operator Mono SSm B', monospace !important;
 	font-size: 13px !important;
+	font-weight: 400 !important;
 }
