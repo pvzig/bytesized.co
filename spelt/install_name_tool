@@ -1,0 +1,1 @@
+install_name_tool -add_rpath "@executable_path/../Frameworks/SpeltKit.framework/Versions/Current/Frameworks/"  "/usr/local/bin/spelt"
