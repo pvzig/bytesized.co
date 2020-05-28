@@ -28,12 +28,18 @@ private struct BytesizedHTMLFactory<Site: Website>: HTMLFactory {
             .lang(context.site.language),
             .head(site: context.site, location: index),
             .body(
-                .header(for: context),
-                .itemList(for: context.allItems.chunked(into: 5).first ?? []),
-                .paginator(currentPage: 0, context: context),
+                .div(.class("pure-g"),
+                     .div(.class("pure-u-0-4 pure-u-md-1-12 pure-u-lg-1-4")),
+                     .div(.class("pure-u-1-1 pure-u-md-5-6 pure-u-lg-1-2"),
+                        .header(for: context),
+                        .itemList(for: context.allItems.chunked(into: 5).first ?? []),
+                        .paginator(currentPage: 0, context: context)
+                    ),
+                    .div(.class("pure-u-0-4 pure-u-md-1-12 pure-u-lg-1-4"))
+                ),
                 .footer(for: context.site)
-                )
             )
+        )
     }
 
     func makeItemHTML(for item: Item<Site>,
@@ -106,9 +112,15 @@ extension PublishingContext {
             .lang(site.language),
             .head(site: site, location: index),
             .body(
-                .header(for: self),
-                .itemList(for: items),
-                .paginator(currentPage: page, context: self),
+                .div(.class("pure-g"),
+                     .div(.class("pure-u-0-4 pure-u-md-1-12 pure-u-lg-1-4")),
+                     .div(.class("pure-u-1-1 pure-u-md-5-6 pure-u-lg-1-2"),
+                          .header(for: self),
+                          .itemList(for: items),
+                          .paginator(currentPage: page, context: self)
+                     ),
+                     .div(.class("pure-u-0-4 pure-u-md-1-12 pure-u-lg-1-4"))
+                ),
                 .footer(for: site)
             )
         )

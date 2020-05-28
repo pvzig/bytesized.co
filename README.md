@@ -5,6 +5,6 @@ bytesized.co is statically generated using [Publish](https://github.com/JohnSund
 
 ## Publishing to S3
 ```
-swift run
+swift run -c release
 aws s3 sync Output/. s3://<Bucket> --exclude "*.DS_Store*"
 ```
