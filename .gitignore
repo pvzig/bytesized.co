@@ -3,3 +3,5 @@ _build
 Output/*
 Resources/fonts/*
 /.swiftpm/*
+/.publish
+/.build

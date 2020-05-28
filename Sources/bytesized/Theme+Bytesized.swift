@@ -3,6 +3,8 @@ import Foundation
 import Plot
 import Publish
 
+private let dateFormat = "MM.dd.yyyy"
+
 public extension Theme {
     static var bytesized: Self {
         Theme(
@@ -14,9 +16,9 @@ public extension Theme {
 
 private struct BytesizedHTMLFactory<Site: Website>: HTMLFactory {
     
-    var dateFormatter: DateFormatter {
+    private var dateFormatter: DateFormatter {
         let formatter = DateFormatter()
-        formatter.dateFormat = "MM.dd.yyyy"
+        formatter.dateFormat = dateFormat
         return formatter
     }
     
@@ -27,8 +29,8 @@ private struct BytesizedHTMLFactory<Site: Website>: HTMLFactory {
             .head(site: context.site, location: index),
             .body(
                 .header(for: context),
-                .itemList(for: context.allItems().chunked(into: 5).first!),
-                .paginator(currentPage: nil, context: context),
+                .itemList(for: context.allItems.chunked(into: 5).first ?? []),
+                .paginator(currentPage: 0, context: context),
                 .footer(for: context.site)
                 )
             )
@@ -38,14 +40,14 @@ private struct BytesizedHTMLFactory<Site: Website>: HTMLFactory {
                       context: PublishingContext<Site>) throws -> HTML {
         HTML(
             .lang(context.site.language),
-            .head(for: item, on: context.site),
+            .head(site: context.site, location: item),
             .body(
                 .div(.class("pure-g"),
                      .div(.class("pure-u-0-4 pure-u-md-1-12 pure-u-lg-1-4")),
                      .div(.class("pure-u-1-1 pure-u-md-5-6 pure-u-lg-1-2"),
                           .header(for: context),
-                          .title(item: item as! Item<Bytesized>),
-                          .date(item: item as! Item<Bytesized>),
+                          .title(item: item.bytesized),
+                          .date(item: item.bytesized),
                           .div(.class("content"), .raw(item.commonMarkBody))
                      ),
                      .div(.class("pure-u-0-4 pure-u-md-1-12 pure-u-lg-1-4"))
@@ -55,6 +57,7 @@ private struct BytesizedHTMLFactory<Site: Website>: HTMLFactory {
         )
     }
 
+    // Paginated
     func makePageHTML(for page: Page,
                       context: PublishingContext<Site>) throws -> HTML {
         HTML(
@@ -94,19 +97,19 @@ private extension Node where Context == HTML.DocumentContext {
 }
 
 extension PublishingContext {
-    func allItems<T: Website>() -> [Item<T>] {
-        return sections.flatMap { $0.items } as! [Item<T>]
+    var allItems: [Item<Site>] {
+        sections.flatMap { $0.items }
     }
     
-    func pageContent(for page: Int, items: [Item<Bytesized>]) -> Content {
+    func pageContent<T: Website>(for page: Int, items: [Item<T>]) -> Content {
         let body = HTML(
-            .lang(self.site.language),
-            .head(site: self.site, location: index),
+            .lang(site.language),
+            .head(site: site, location: index),
             .body(
                 .header(for: self),
                 .itemList(for: items),
                 .paginator(currentPage: page, context: self),
-                .footer(for: self.site)
+                .footer(for: site)
             )
         )
 
@@ -117,22 +120,23 @@ extension PublishingContext {
 private extension Node where Context == HTML.BodyContext {
     static var dateFormatter: DateFormatter {
         let formatter = DateFormatter()
-        formatter.dateFormat = "MM.dd.yyyy"
+        formatter.dateFormat = dateFormat
         return formatter
     }
     
     static func header<T: Website>(for context: PublishingContext<T>) -> Node {
-        return .header(.class("header"),
+        return .header(
+            .class("header"),
             .a(.class("site-name"), .href("/"), .text(context.site.name)),
             .div(.class("byline"), .text(context.site.byline))
         )
     }
     
-    static func itemList(for items: [Item<Bytesized>]) -> Node {
+    static func itemList<T: Website>(for items: [Item<T>]) -> Node {
         return .forEach(items) { item in
             .group([
-                .div(.class("title"), .a(.href(item.path.absoluteString.html), .text(item.metadata.title))),
-                .div(.class("date"), .text(dateFormatter.string(from: item.metadata.date))),
+                .div(.class("title"), .a(.href(item.path.absoluteString.html), .text(item.bytesized.metadata.title))),
+                .div(.class("date"), .text(dateFormatter.string(from: item.bytesized.metadata.date))),
                 .div(.class("content"), .raw(item.commonMarkBody))
             ])
         }
@@ -147,35 +151,41 @@ private extension Node where Context == HTML.BodyContext {
     }
 
     static func footer<T: Website>(for site: T) -> Node {
-        return .footer(.class("footer"),
-            .div(.style("text-align:center"), .text(site.footer))
-        )
+        .footer(.class("footer"), .div(.style("text-align:center"), .text(site.footer)))
     }
 
-    static func paginator<T: Website>(currentPage: Int?, context: PublishingContext<T>) -> Node {
-        if let page = currentPage {
-            let nextPage = page + 1
-            let previousPage = page - 1
-            let isMore = context.sections.flatMap { $0.items }.count > page * 5
-            let previousLink = previousPage == 0 ? "index.html" : "\(previousPage).html"
-            if isMore {
-                return .div(.class("footer"), .style("min-height: 30px"),
-                            .a(.href(previousLink), .class("previous"), .text("← previous")),
-                            .div(.style("float: right"), .a(.href("\(nextPage).html"), .class("next"), .text("more →")))
-                )
-            } else {
-                return .div(.class("footer"), .style("min-height: 30px"),
-                            .a(.href("\(previousPage).html"), .class("previous"), .text("← previous"))
-                )
-            }
-        // Index
-        } else {
-            return .div(.style("float: right"), .a(.href("1.html"), .class("next"), .text("more →")))
+    static func paginator<T: Website>(currentPage: Int, context: PublishingContext<T>) -> Node {
+        func next(path: String) -> Node {
+            .div(.style("float: right"), .a(.href(path), .class("next"), .text("more →")))
+        }
+        
+        func previous(path: String) -> Node {
+            .a(.href(path), .class("previous"), .text("← previous"))
+        }
+        
+        let nextPage = currentPage + 1
+        let previousPage = currentPage - 1
+        let previousLink = previousPage == 0 ? "index.html" : "\(previousPage).html"
+        let nextLink = "\(nextPage).html"
+        let isNext = context.allItems.count > nextPage * 5
+        let isPrevious = currentPage != 0
+        
+        return .div(.class("footer"), .style("min-height: 30px"),
+            .if(isPrevious, previous(path: previousLink)),
+            .if(isNext, next(path: nextLink))
+        )
+    }
+}
+
+extension Array {
+    func chunked(into size: Int) -> [[Element]] {
+        return stride(from: 0, to: count, by: size).map {
+            Array(self[$0 ..< Swift.min($0 + size, count)])
         }
     }
 }
 
-extension String {
+private extension String {
     var html: String {
         return self + ".html"
     }
