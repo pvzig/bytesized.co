@@ -1,8 +1,7 @@
 ---
 date: 2015-08-18
 title: Streaming Bliss
-layout: post
-permalink: streaming-bliss.html
+path: streaming-bliss
 ---
 In my home office, my gaming PC and my Xbox One share a single [monitor](http://amzn.com/B00SPWPF1O), so I was pretty excited about the Windows 10 Xbox application and the ability to stream games from a Xbox One to a PC. Unfortunately, launch day brought with it a disappointing reality - even on the highest setting, the streaming video was scaled down to 720p, which meant that my  HDMI switcher was sticking around for awhile.
 

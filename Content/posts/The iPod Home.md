@@ -1,8 +1,7 @@
 ---
 date: 2016-03-15
 title: The iPod Home
-layout: post
-permalink: the-ipod-home.html
+path: the-ipod-home
 ---
 The [Amazon Echo](http://amzn.com/B00X4WHP5E) is a [certified](http://fortune.com/2016/03/12/steve-wozniak-echo-next-big-platform/) [hit](http://www.nytimes.com/2016/03/10/technology/the-echo-from-amazon-brims-with-groundbreaking-promise.html?_r=0). Voice now seems obvious as the natural interface for devices within the confines of the home—and the Echo looks like a glaring miss for Apple, Google, and Microsoft—companies that have mature digital assistants and the hardware expertise to produce an Echo-like device. Spurred on by an [increasing number of open APIs](http://www.bytesized.co/index/extensible-messengers) Amazon has been adding functionality at a rapid pace—you can now [order an Uber](http://www.theverge.com/2016/2/5/10919760/amazon-echo-uber-alexa-api-integration), [control your thermostat](http://recode.net/2016/03/03/nest-now-works-with-amazon-echo-but-nest-wishes-it-had-built-echo-instead/), [stream music from Spotify](http://www.theverge.com/2016/2/4/10911480/amazons-echo-spotify-support-music-streaming), and [more](https://developer.amazon.com/public/solutions/alexa/alexa-skills-kit)[^1] from the Echo. It feels like the beginning of the smart home revolution that tech companies have been promising since Bill Gates laid [miles](https://www.washingtonpost.com/archive/politics/1997/08/28/the-house-that-bill-gatess-money-built/083910d4-78c8-4d09-ab66-820cfb103e46/) of ethernet and fiberoptic cable in his Seattle mansion in the late 1990s. Competitors are already [starting to arrive](http://www.wired.com/2016/02/xperia-agent-sonys-bold-plan-one-amazon-echo/), but it’s a market that’s still in its infancy—and one that Microsoft, Facebook, Google, and Apple will want a piece of. As the Echo is showing us, these digital assistant-powered devices are primed to be the smarts behind the smart home.
 

@@ -1,8 +1,7 @@
 ---
 date: 2015-12-09
 title: Powered by Typed.com
-layout: post
-permalink: powered-by-typed-dot-com.html
+path: powered-by-typed-dot-com
 ---
 Earlier this year, I took a look at the options for hosting a blog in 2015. I ended up settling on Tumblr, tweeting:
 

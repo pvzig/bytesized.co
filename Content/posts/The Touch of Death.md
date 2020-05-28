@@ -1,8 +1,7 @@
 ---
 date: 2017-02-15
 title: The Touch of Death
-layout: post
-permalink: touch-of-death.html
+path: touch-of-death
 ---
 The [Touch Bar](https://developer.apple.com/macos/touch-bar/), the headline feature of Apple’s new [MacBook Pro laptops](http://www.apple.com/macbook-pro/), is a mistake. It is a gimmick, a colorful whiz-bang toy “feature” designed to sell two-thousand dollar computers in Apple Stores. And it shouldn’t be the future of how we interact with macOS.
 

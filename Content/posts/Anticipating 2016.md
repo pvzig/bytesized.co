@@ -1,8 +1,7 @@
 ---
 date: 2016-01-01
 title: Anticipating 2016
-layout: post
-permalink: anticipating-2016.html
+path: anticipating-2016
 ---
 Happy New Year! After looking back at the end of 2015, now it’s time to look forwards to the year that will be. Here are the albums and the games I’m looking forward to in 2016[^1].
 

@@ -1,8 +1,7 @@
 ---
 date: 2017-01-01
 title: Anticipating 2017
-layout: post
-permalink: anticipating-2017.html
+path: anticipating-2017
 ---
 Happy New Year! After saying goodbye to [2*16](https://bytesized.co/2016.html), it seems especially sweet to have the promise of a new year sprawled out before us. Here are the music and games I’m looking forward to in 2017 — [let’s go exploring](http://www.gocomics.com/calvinandhobbes/1995/12/31)[^1].
 

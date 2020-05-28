@@ -1,8 +1,7 @@
 ---
 date: 2016-03-10
 title: Extensible Messengers: How Messaging Platforms are Helping Resurrect the Open Web
-layout: post
-permalink: extensible-messengers.html
+path: extensible-messengers
 ---
 The concept of the [“Open API”](https://en.wikipedia.org/wiki/Open_API)[^1] has held various levels of esteem and support over the previous decade. It emerged as a fundamental building block of the [Web 2.0](https://en.wikipedia.org/wiki/Web_2.0) movement, with services like Flickr and Google Maps launching officially supported APIs a short while after launching themselves. The social giants Twitter and Facebook followed with APIs of their own. By the end of 2006, it seemed like an open API was a prerequisite for a successful launch.
 

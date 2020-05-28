@@ -1,8 +1,7 @@
 ---
 date: 2017-08-20
 title: SlackKit 4.0.0
-layout: post
-permalink: slackkitv4.html
+path: slackkitv4
 ---
 Back in June, I released a new major update to [SlackKit](https://www.github.com/SlackKit/SlackKit "SlackKit"), my Swift framework for building Slack apps. There were three big goals for this release — I wanted to make it universal, make it modular, and make it extensible.
 

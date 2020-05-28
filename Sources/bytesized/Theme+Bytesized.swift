@@ -57,7 +57,7 @@ private struct BytesizedHTMLFactory<Site: Website>: HTMLFactory {
 
     func makePageHTML(for page: Page,
                       context: PublishingContext<Site>) throws -> HTML {
-        return HTML(
+        HTML(
             .body(page.content.body.node)
         )
     }
@@ -74,11 +74,6 @@ private struct BytesizedHTMLFactory<Site: Website>: HTMLFactory {
     func makeTagDetailsHTML(for page: TagDetailsPage, context: PublishingContext<Site>) throws -> HTML? {
         return nil
     }
-}
-
-extension Website {
-    var byline: String { "by Peter Zignego" }
-    var footer: String { "Copyright © 2020 Peter Zignego" }
 }
 
 private extension Node where Context == HTML.DocumentContext {
@@ -136,7 +131,7 @@ private extension Node where Context == HTML.BodyContext {
     static func itemList(for items: [Item<Bytesized>]) -> Node {
         return .forEach(items) { item in
             .group([
-                .div(.class("title"), .a(.href(item.metadata.permalink), .text(item.metadata.title))),
+                .div(.class("title"), .a(.href(item.path.absoluteString.html), .text(item.metadata.title))),
                 .div(.class("date"), .text(dateFormatter.string(from: item.metadata.date))),
                 .div(.class("content"), .raw(item.commonMarkBody))
             ])
@@ -144,7 +139,7 @@ private extension Node where Context == HTML.BodyContext {
     }
     
     static func title(item: Item<Bytesized>) -> Node {
-        .div(.class("title"), .a(.href(item.metadata.permalink), .text(item.metadata.title)))
+        .div(.class("title"), .a(.href(item.path.absoluteString.html), .text(item.metadata.title)))
     }
     
     static func date(item: Item<Bytesized>) -> Node {
@@ -177,5 +172,11 @@ private extension Node where Context == HTML.BodyContext {
         } else {
             return .div(.style("float: right"), .a(.href("1.html"), .class("next"), .text("more →")))
         }
+    }
+}
+
+extension String {
+    var html: String {
+        return self + ".html"
     }
 }

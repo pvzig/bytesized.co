@@ -1,8 +1,7 @@
 ---
 date: 2017-01-11
 title: No Place Like the Homescreen
-layout: post
-permalink: 2017-homescreen.html
+path: 2017-homescreen
 ---
 It’s the most coveted real estate in technology — that grid of colorful icons staring back at you whenever you wake up your phone. It’s where our most used and most loved apps live. Despite the chatter about the [end of the app “boom”](http://www.recode.net/2016/6/8/11883518/app-boom-over-snapchat-uber), my homescreen has resisted the entropy afflicting others. Out of the 28 total spots available, 9 have changed from [last year](https://twitter.com/pvzig/status/683132662979162112). This is what my home screen looks like at the beginning of 2017.
 

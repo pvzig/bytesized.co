@@ -1,8 +1,7 @@
 ---
 date: 2016-12-19
 title: Generated Swiftly
-layout: post
-permalink: generated-swiftly.html
+path: generated-swiftly
 ---
 After [just about a year](https://bytesized.co/powered-by-typed-dot-com.html) of being hosted on [Typed](https://www.typed.com), [bytesized.co](https://www.bytesized.co) is now statically generated and hosted on [S3](https://aws.amazon.com/s3/)[^1] — and it’s generated with Swift!
 

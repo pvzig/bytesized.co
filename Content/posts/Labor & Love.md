@@ -1,8 +1,7 @@
 ---
 date: 2015-09-08
 title: Labor & Love
-layout: post
-permalink: labor-and-love.html
+path: labor-and-love
 ---
 Earlier this summer, Brent Simmons wrote [an article](http://inessential.com/2015/06/30/love) about the current state of iOS software development:
 > The platform is awesome. We love writing iOS apps. It’s fun and massively rewarding in every way except monetarily. As a craft — as a budding art form, perhaps — it’s juicy.

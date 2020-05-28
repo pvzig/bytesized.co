@@ -1,8 +1,7 @@
 ---
 date: 2019-01-01
 title: Year In Review: 2018
-layout: post
-permalink: 2018.html
+path: 2018
 ---
 Another year of big changes. We moved again and bought our first home, a beautiful old American Foursquare in our old neighborhood. Astro was [acquired by Slack](https://slackhq.com/slack-acquires-astro-to-help-email-and-channels-work-together) in September, making it three straight years of September job changes. In November, we celebrated my daughter's 1st birthday, and parenting continues to be the most exhausting and rewarding part of my life. Here's the 2018 media that was the backdrop to my year[^1].
 

@@ -10,7 +10,7 @@ struct Bytesized: Website {
     struct ItemMetadata: WebsiteItemMetadata {
         var date: Date
         var title: String
-        var permalink: String
+        var path: String
     }
 
     var url = URL(string: "https://bytesized.co")!
@@ -18,6 +18,11 @@ struct Bytesized: Website {
     var language: Language { .english }
     var imagePath: Path? { nil }
     var description: String { "by Peter Zignego" }
+}
+
+extension Website {
+    var byline: String { "by Peter Zignego" }
+    var footer: String { "Copyright © 2020 Peter Zignego" }
 }
 
 try Bytesized().publish(using: [

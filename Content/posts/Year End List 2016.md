@@ -1,8 +1,7 @@
 ---
 date: 2016-12-31
 title: Year In Review: 2016
-layout: post
-permalink: 2016.html
+path: 2016
 ---
 In many ways, 2016 has been a year of disappointments for the tech industry. Many of the [disruptive](http://www.theverge.com/2016/3/24/11297050/tay-microsoft-chatbot-racist) [technologies](http://fortune.com/2016/07/05/virtual-reality-htc-sales/) that were [hyped](http://fortune.com/2016/12/20/wearable-apple-watch-fitbit-hype/) this year fizzled out after failing to generate significant consumer interest. In retrospect, I think it’s apparent that the industry has become spoiled by the attention garnered by a once-in-a-lifetime product — the smartphone.
 

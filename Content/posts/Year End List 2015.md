@@ -1,8 +1,7 @@
 ---
 date: 2015-12-30
 title: Year End List: 2015
-layout: post
-permalink: 2015.html
+path: 2015
 ---
 I love year end lists - for the list reader they’re an excellent way to take in annualized curation (the internet is a big place and it’s easy to miss great stuff!). For the list maker they’re a great way to look back on the year that was and take stock of it. Here are my year end lists for 2015[^1].
 

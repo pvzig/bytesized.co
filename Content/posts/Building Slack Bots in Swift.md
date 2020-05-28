@@ -1,8 +1,7 @@
 ---
 date: 2016-05-05
 title: Building Slack Bots in Swift
-layout: post
-permalink: swift-bots.html
+path: swift-bots
 ---
 As a remote iOS developer, I love [Slack](https://slack.com). It’s both my meeting room and my water cooler. As [interest in bots exploded](https://www.techcrunch.com/2015/12/15/trophy-emoji), my interest was piqued. Of course I was interested in writing bots for one of my favorite services! My love of Slack and my love of Apple’s new programming language, [Swift](https://www.swift.org), came together in the form of [SlackKit](http://www.slackkit.co), a Slack client library for iOS, tvOS, and macOS. Unfortunately, it’s not very practical to have to run your Slack bots on a Mac or iPhone, and SlackKit wasn’t compatible with Linux — [until now](https://github.com/pvzig/SlackKit/tree/linux).
 

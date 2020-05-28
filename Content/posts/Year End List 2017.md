@@ -1,8 +1,7 @@
 ---
 date: 2018-01-01
 title: Year In Review: 2017
-layout: post
-permalink: 2017.html
+path: 2017
 ---
 The past year has been challenging and rewarding, both personally and professionally. As usual I read, wrote, listened, and played about 1% of everything I wanted to. Here’s some of what I did get to, and enjoyed enough to recommend to you[^1].
 
