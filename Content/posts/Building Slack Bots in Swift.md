@@ -25,7 +25,7 @@ swift package init --type executable
 
 Next, let’s edit our `Package.swift` to add the SlackKit package as a dependency:
 
-{% gist 74e7c4e18b60ac05ff8737bdcd12e34d %}
+<script src="https://gist.github.com/pvzig/74e7c4e18b60ac05ff8737bdcd12e34d.js"></script>
 
 and generate our development environment:
 
@@ -35,7 +35,7 @@ swift package generate-xcodeproj
 
 ## Show Me the Swift Code!
 To create our bot, we need to open the `robot-or-not-bot.xcodeproj` file we just generated, and edit the `main.swift` file in _Sources > robot-or-not-bot_ to contain our bot logic. The following code uses SlackKit to listen for messages directed at our bot and then respond to them by adding a reaction to the inquiry.
-{% gist c8f01710d22bfb6f16a9d26819bca81d %}
+<script src="https://gist.github.com/pvzig/c8f01710d22bfb6f16a9d26819bca81d.js"></script>
 ## Setting Up Your Slack Bot
 Next, we need to create a bot integration in Slack. You’ll need a Slack that you have administrator access to; if you don’t already have one of those to play with, go [sign up](https://slack.com/create). Slack is free for small teams.
 
