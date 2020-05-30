@@ -33,6 +33,12 @@ try Bytesized().publish(using: [
     },
     .copyResources(),
     .addMarkdownFiles(rawContent: true),
+    .step(named: "Name Index") { context in
+        context.index.title = context.site.name
+    },
+    .mutateAllItems { item in
+        item.content.title = item.metadata.title
+    },
     .sortItems(by: \.metadata.date, order: .descending),
     .step(named: "Paginate") { context in
         for section in context.sections.ids {

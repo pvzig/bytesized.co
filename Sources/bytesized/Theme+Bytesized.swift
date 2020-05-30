@@ -67,6 +67,8 @@ private struct BytesizedHTMLFactory<Site: Website>: HTMLFactory {
     func makePageHTML(for page: Page,
                       context: PublishingContext<Site>) throws -> HTML {
         HTML(
+            .lang(context.site.language),
+            .head(site: context.site, location: page),
             .body(page.content.body.node)
         )
     }
@@ -109,8 +111,6 @@ extension PublishingContext {
     
     func pageContent<T: Website>(for page: Int, items: [Item<T>]) -> Content {
         let body = HTML(
-            .lang(site.language),
-            .head(site: site, location: index),
             .body(
                 .div(.class("pure-g"),
                      .div(.class("pure-u-0-4 pure-u-md-1-12 pure-u-lg-1-4")),
@@ -125,7 +125,7 @@ extension PublishingContext {
             )
         )
 
-        return Content(body: Content.Body(html: body.render()))
+        return Content(title: site.name, body: Content.Body(html: body.render()))
     }
 }
 
