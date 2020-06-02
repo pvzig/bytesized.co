@@ -1,6 +1,7 @@
 import Foundation
 import Publish
 import Plot
+import ShellOut
 
 struct Bytesized: Website {
     enum SectionID: String, WebsiteSectionID {
@@ -53,5 +54,16 @@ try Bytesized().publish(using: [
             }
         }
     },
-    .generateHTML(withTheme: .bytesized, fileMode: .standAloneFiles)
+    .generateHTML(withTheme: .bytesized, fileMode: .standAloneFiles),
+    .deploy(using: .s3("bytesized.co"))
 ])
+
+public extension DeploymentMethod {
+    // Requires AWS CLI to be installed
+    static func s3(_ bucket: String) -> Self {
+        DeploymentMethod(name: "S3 (\(bucket))") { context in
+            let s3 = try context.createDeploymentFolder(withPrefix: "s3_", configure: { _ in })
+            try shellOut(to: "aws s3 sync \(s3.path) s3://\(bucket) --exclude \"*.DS_Store*\"", outputHandle: FileHandle.standardOutput)
+        }
+    }
+}
