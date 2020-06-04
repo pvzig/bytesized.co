@@ -52,12 +52,12 @@ try Bytesized().publish(using: [
                 if i == 0 {
                     continue
                 }
-                let page = Page(path: "\(i)", content: context.pageContent(for: i, items: chunk))
+                let page = Page(path: "/page/\(i)", content: context.pageContent(for: i, items: chunk))
                 context.addPage(page)
             }
         }
     },
-    .generateHTML(withTheme: .bytesized, fileMode: .standAloneFiles),
+    .generateHTML(withTheme: .bytesized, fileMode: .standAloneFilesClean),
     .generateRSSFeed(including: [.posts]),
     .deploy(using: .s3("bytesized.co"))
 ])
@@ -67,7 +67,14 @@ public extension DeploymentMethod {
     static func s3(_ bucket: String) -> Self {
         DeploymentMethod(name: "S3 (\(bucket))") { context in
             let s3 = try context.createDeploymentFolder(withPrefix: "s3_", configure: { _ in })
-            try shellOut(to: "aws s3 sync \(s3.path) s3://\(bucket) --exclude \"*.DS_Store*\"", outputHandle: FileHandle.standardOutput)
+            // HTML
+            try shellOut(
+                to: "aws s3 sync \(s3.path) s3://\(bucket) --exclude '*' --exclude '*.DS_Store' --include 'posts/*' --include 'page/*' --include 'index.html' --content-type 'text/html'",
+                outputHandle: FileHandle.standardOutput)
+            // Resources
+            try shellOut(
+                to: "aws s3 sync \(s3.path) s3://\(bucket) --include '*' --exclude 'posts/*' --exclude 'page/*' --exclude 'index.html' --exclude '*.DS_Store'",
+                outputHandle: FileHandle.standardOutput)
         }
     }
 }

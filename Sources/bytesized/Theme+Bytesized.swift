@@ -148,7 +148,7 @@ private extension Node where Context == HTML.BodyContext {
     static func itemList<T: Website>(for items: [Item<T>]) -> Node {
         return .forEach(items) { item in
             .group([
-                .div(.class("title"), .a(.href(item.path.absoluteString.html), .text(item.bytesized.metadata.title))),
+                .div(.class("title"), .a(.href(item.path.absoluteString), .text(item.bytesized.metadata.title))),
                 .div(.class("date"), .text(dateFormatter.string(from: item.bytesized.metadata.date))),
                 .div(.class("content"), item.content.body.node)
             ])
@@ -156,7 +156,7 @@ private extension Node where Context == HTML.BodyContext {
     }
     
     static func title(item: Item<Bytesized>) -> Node {
-        .div(.class("title"), .a(.href(item.path.absoluteString.html), .text(item.metadata.title)))
+        .div(.class("title"), .a(.href(item.path.absoluteString), .text(item.metadata.title)))
     }
     
     static func date(item: Item<Bytesized>) -> Node {
@@ -178,8 +178,8 @@ private extension Node where Context == HTML.BodyContext {
         
         let nextPage = currentPage + 1
         let previousPage = currentPage - 1
-        let previousLink = previousPage == 0 ? "index.html" : "\(previousPage).html"
-        let nextLink = "\(nextPage).html"
+        let previousLink = previousPage == 0 ? "/" : "/page/\(previousPage)"
+        let nextLink = "/page/\(nextPage)"
         let isNext = context.allItems.count > nextPage * 5
         let isPrevious = currentPage != 0
         
@@ -195,11 +195,5 @@ extension Array {
         return stride(from: 0, to: count, by: size).map {
             Array(self[$0 ..< Swift.min($0 + size, count)])
         }
-    }
-}
-
-private extension String {
-    var html: String {
-        return self + ".html"
     }
 }
