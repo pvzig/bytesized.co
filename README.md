@@ -5,5 +5,6 @@ bytesized.co is statically generated using [Publish](https://github.com/JohnSund
 
 ## Publishing to S3
 ```bash
+swift run -c release bytesized
 swift run -c release bytesized --deploy
 ```

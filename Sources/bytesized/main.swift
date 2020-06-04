@@ -33,12 +33,15 @@ try Bytesized().publish(using: [
         context.dateFormatter = formatter
     },
     .copyResources(),
-    .addMarkdownFiles(rawContent: true),
+    .addMarkdownFiles(customContentParser: { text, metadata -> Content in
+        Content(body: Content.Body(stringLiteral: commonMarkBody(text, metadata: metadata)))
+    }),
     .step(named: "Name Index") { context in
         context.index.title = context.site.name
     },
     .mutateAllItems { item in
         item.content.title = item.metadata.title
+        item.content.date = item.metadata.date
     },
     .sortItems(by: \.metadata.date, order: .descending),
     .step(named: "Paginate") { context in
@@ -55,6 +58,7 @@ try Bytesized().publish(using: [
         }
     },
     .generateHTML(withTheme: .bytesized, fileMode: .standAloneFiles),
+    .generateRSSFeed(including: [.posts]),
     .deploy(using: .s3("bytesized.co"))
 ])
 
