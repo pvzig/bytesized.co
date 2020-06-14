@@ -100,6 +100,7 @@ private extension Node where Context == HTML.DocumentContext {
             .link(.rel(.stylesheet), .href("/css/pure/grids-responsive-min.css"), .type("text/css")),
             .link(.rel(.stylesheet), .href("https://cloud.typography.com/6607452/6761212/css/fonts.css"), .type("text/css")),
             .link(.rel(.icon), .href("/images/favico.ico"), .sizes("32x32")),
+            .link(.rel(.appleTouchIcon), .href("/images/ico.png")),
             .link(.rel(.alternate), .href("/feed.rss"), .type("application/rss+xml"))
         )
     }
