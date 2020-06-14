@@ -1,9 +1,19 @@
+:root {
+	--background-color: #FFFFFF;
+	--text-color: #000;
+	--light-text-color: #C4C4C4;
+	--highlight-color: #EB212E;
+	--code-background-color: #F3F3F3;
+}
+
 * {
 	margin: 0;
 	padding: 0;
+	background-color: var(--background-color);
 }
 
 body {
+	color: var(--text-color);
 	padding: 16px;
 }
 
@@ -14,26 +24,17 @@ body {
 h1 {
 	font-size: 26px;
 	font-weight: 300;
-	color: black;
 	padding: 30px 0px 0px 0px;
 }
 
 h2 {
 	font-size: 20px;	
 	font-weight: 300;
-	color: black;
-}
-
-h3 {
-	font-size: 20px;
-	font-weight: 300;
-	color: #484848;
 }
 
 p {
 	font-weight: 300;
 	font-size: 16px;
-	color: black;
 	line-height: 26px;
 }
 
@@ -48,7 +49,7 @@ li {
 
 hr {
     border: 0;
-    border-bottom: 1px dotted #EB212E;
+    border-bottom: 1px dotted var(--highlight-color);
 }
 
 blockquote { 
@@ -57,7 +58,6 @@ blockquote {
     margin-bottom: 1em;
     margin-left: 40px;
     margin-right: 40px;
-	color: black;
 	font-weight: 300;
 	font-size: 16px;
 	line-height: 26px;
@@ -68,34 +68,34 @@ sup a {
 }
 
 a {
-	color: #EB212E;
+	color: var(--highlight-color);
 	text-decoration: none;
-	border-bottom: 1px dotted #EB212E;
+	border-bottom: 1px dotted var(--highlight-color);
 }
 
 a:hover {
-	color: #EB212E;
+	color: var(--highlight-color);
 	text-decoration: none;
-	border-bottom: 1px solid #EB212E;
+	border-bottom: 1px solid var(--highlight-color);
 }
 
 .header {
 	font-family: 'Gotham SSm A', 'Gotham SSm B', 'Helvetica', sans-serif;
 	font-weight: 700;
 	font-size: 40px;
-	color: black;
+	color: var(--text-color);
 	padding: 16px 0px 0px 0px;
 	text-align: left;
 }
 
 .header a {
-	color: black;
+	color: var(--text-color);
 	text-decoration: none;
 	border-bottom: none;
 }
 
 .header a:hover {
-	color: black;
+	color: var(--text-color);
 	text-decoration: none;
 	border-bottom: none;
 }
@@ -104,7 +104,7 @@ a:hover {
 	font-family: 'Gotham SSm A', 'Gotham SSm B', 'Helvetica', sans-serif;
 	font-weight: 400;
 	font-size: 14px;
-	color: black;
+	color: var(--text-color);
 	text-align: left;
 	padding-bottom: 16px;
 }
@@ -113,18 +113,18 @@ a:hover {
 	font-family: 'Operator Mono SSm A', 'Operator Mono SSm B', monospace;
 	font-weight: 400;
 	font-size: 26px;
-	color: black;
+	color: var(--text-color);
 	padding: 30px 0px 0px 0px;
 }
 
 .title a {
-	color: black;
+	color: var(--text-color);
 	text-decoration: none;
 	border-bottom: none;
 }
 
 .title a:hover {
-	color: black;
+	color: var(--text-color);
 	text-decoration: none;
 	border-bottom: none;
 }
@@ -133,7 +133,7 @@ a:hover {
 	font-family: 'Operator Mono SSm A', 'Operator Mono SSm B', monospace;
 	font-weight: 300;
 	font-size: 16px;
-	color: #C4C4C4;
+	color: var(--light-text-color);
 	padding: 5px 0px 0px 0px;
 }
 
@@ -141,21 +141,21 @@ a:hover {
 	font-family: 'Ringside Regular SSm A', 'Ringside Regular SSm B', 'Helvetica', sans-serf;
 	font-weight: 300;
 	font-size: 12px;
-	color: #C4C4C4;
+	color: var(--light-text-color);
 }
 
 .footer a {
 	font-size: 14px;
-	color: #EB212E;
+	color: var(--highlight-color);
 	text-decoration: none;
-	border-bottom: 1px dotted #EB212E;
+	border-bottom: 1px dotted var(--highlight-color);
 }
 
 .footer a:hover {
 	font-size: 14px;
-	color: #EB212E;
+	color: var(--highlight-color);
 	text-decoration: none;
-	border-bottom: 1px solid #EB212E;
+	border-bottom: 1px solid var(--highlight-color);
 }
 
 pre {
@@ -163,11 +163,23 @@ pre {
 	padding: 10px;
 	left: 0;
 	right: 0;
-	background-color: #F3F3F3;
+	background-color: var(--code-background-color);
 }
 
 code {
 	font-family: 'Operator Mono SSm A', 'Operator Mono SSm B', monospace !important;
 	font-size: 13px !important;
 	font-weight: 400 !important;
+	padding: 5px;
+	background-color: var(--code-background-color);
+}
+
+@media (prefers-color-scheme: dark) {
+	:root {
+		--background-color: #222831;
+		--text-color: #eeeeee;
+		--light-text-color: #6b778d;
+		--highlight-color: #32e0c4;
+		--code-background-color: #393e46;
+	}
 }
