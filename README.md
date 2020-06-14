@@ -12,6 +12,7 @@ swift run -c release bytesized --deploy
 ```
 
 With [Github Actions](https://github.com/pvzig/bytesized.co/blob/master/.github/workflows/deploy.yml):
+
 Configure the following secrets in Github (/repo/settings/secrets)
 - AWS_S3_BUCKET
 - AWS_ACCESS_KEY_ID
