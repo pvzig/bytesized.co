@@ -19,8 +19,9 @@ jobs:
     - uses: actions/upload-artifact@v2
       with:
         name: bytesized
-        path: ~/Output/
+        path: Output/
   deploy:
+    needs: build
     runs-on: ubuntu-latest
     steps:
       - uses: actions/download-artifact@v2
