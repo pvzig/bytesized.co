@@ -3,7 +3,6 @@ date: 2020-01-01
 title: 2019
 path: 2019.html
 ---
-# 2019
 Had a second kid! Took time off for paternity leave.
 For the first time since 2016 I didn’t change jobs in September. We didn’t move this year and are happily settling (back) into our life here in Durham, NC. 
 
@@ -13,10 +12,12 @@ Drank [a](https://westbrookbrewing.com/beer/rinse-repeat-motueka-wakatu-ddh/) [l
 
 The rest of my 2019 highlights:[^1]
 
-# Books
+**Books**
+
 - [Blackfish City: A Novel by Sam J Miller](https://www.amazon.com/Blackfish-City-Novel-Sam-Miller/dp/0062684825/) -- Incredible world building, a little unevenly paced.
 
-# Music
+**Music**
+
 - [The 1975 - A Brief Inquiry Into Online Relationships](https://open.spotify.com/album/6PWXKiakqhI17mTYM4y6oY?si=wZXezoRsT_C9nbeJEVTMaw)
 - [The Beths - Future Me Hates Me](https://open.spotify.com/album/4xG41eVnTuDK6uMmcksQ9B?si=GUsY7CQ1R5WSEXAUwoFtKQ)
 - [Big Thief - U.F.O.F](https://open.spotify.com/album/5X0bIKvPtSDo4NpXqgrB6p?si=JtRE5qkfTdafs7JxjKQhfg)
@@ -25,14 +26,17 @@ The rest of my 2019 highlights:[^1]
 - [The New Pornographers - In the Morse Code of Brake Lights](https://open.spotify.com/album/07XtrVIcnlM0IA5FC7elBx?si=t1Dp3DY5TW2JU8nwg_nHvQ)
 - [Ryley Walker - Golden Sings That Have Been Sung](https://open.spotify.com/album/6pzoDMaxrkGRsjoMKey5x8?si=d9Daz_7kRCSBkW3zg7N8zA)
 
-# Apps (iOS)
+**Apps (iOS)**
+
 - [Weather Line](http://weatherlineapp.com)
 
-# Apps (macOS)
+**Apps (macOS)**
+
 - [Pastebot](https://tapbots.com/pastebot/)
 - [Visual Studio Code](https://code.visualstudio.com)
 
-# Games
+**Games**
+
 - [Baba Is You](https://store.steampowered.com/app/736260/Baba_Is_You/)
 - [Outer Wilds](https://store.steampowered.com/app/753640/Outer_Wilds/) -- An absolute masterpiece. One of the best games of the decade.
 - [Super Mario Maker 2](https://supermariomaker.nintendo.com/buy/)
