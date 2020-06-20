@@ -2,9 +2,14 @@
 import Foundation
 
 extension String {
+    
+    var formatter: DateFormatter {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "yyyy-MM-dd"
+        return formatter
+    }
+    
     func parseMarkdownFootnotes(date: Date) -> String {
-         let formatter = DateFormatter()
-         formatter.dateFormat = "yyyy-MM-dd"
          // Match footnote references
          func removeParagraphTags(_ string: String) -> String {
              do {
