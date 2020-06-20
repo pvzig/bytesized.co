@@ -9,7 +9,7 @@ As Spelt was no longer being actively developed, rather than take the time to co
 
 But the beauty of open source is exactly that, so I [forked it](https://github.com/pvzig/Publish) and fixed my two biggest issues. The first issue is that it insists on using [Ink](https://github.com/JohnSundell/Ink) as the Markdown parser. Ink doesn't fully support [CommonMark](https://commonmark.org) and couldn't correctly parse some of my posts so I added a [custom content parser](https://github.com/pvzig/Publish/commit/74ab20ae5559f9e6c10ef0821e2325a7074ead79) block and replaced Ink with this [CommonMark package](https://github.com/SwiftDocOrg/CommonMark). This also provided me an entry point where I could add parsing for [markdown footnotes](https://github.com/pvzig/bytesized.co/blob/master/Sources/bytesized/CommonMark%2BFootnotes.swift)[^1]. The second paper cut was the lack of control over paths. The simple fix was to add a new mode for [clean links](https://github.com/pvzig/Publish/commit/248092234a0152516db894999e581371aa116876) but it would have been nice for a bit more built-in flexibility here.
 
-One of the things about Publish that is technically neat is that it uses function builders[^2] to power it's HTML DSL[^3] [Plot](https://github.com/JohnSundell/Plot). What this means in practice is that you can write HTML in Swift like this:
+One of the things about Publish that is technically neat is it's HTML DSL[^2] [Plot](https://github.com/JohnSundell/Plot). What this means in practice is that you can write HTML in Swift like this:
 
 ```swift
 let body = HTML(
@@ -33,11 +33,10 @@ Like I said, kinda neat! In practice I found it to be more clunky and mistake-pr
 My last complaint is a more general one — Swift generics are still too difficult to use, and the error messages provided by Xcode make them unapproachable for novices and experts alike. I would do everything I could to not expose generics in the API of a library I published.
 
 Above gripes aside, my overall experience was a positive one. The "steps" model used by Publish makes the whole system extensible by design, and the included RSS feed generator step 
-means that this site now has [one](/feed.rss). I was able to easily add and plug in a [S3 deployment method](https://github.com/pvzig/bytesized.co/blob/master/Sources/bytesized/main.swift#L65) that uses the AWS CLI, which ended up inspiring me to convert the whole process into a [Github Action](https://github.com/pvzig/bytesized.co/blob/master/.github/workflows/deploy.yml) that builds and deploys the site automatically whenever I push to `master`. Oh, and there's a dark mode theme now.
+means that this site now has [one](/feed.rss). I was able to easily add and plug in a [S3 deployment method](https://github.com/pvzig/bytesized.co/blob/master/Sources/bytesized/main.swift#L65) that uses the AWS CLI, which ended up inspiring me to convert the whole process into a [Github Action](https://github.com/pvzig/bytesized.co/blob/master/.github/workflows/deploy.yml) that builds and deploys the site automatically whenever I push to `main`. Oh, and there's a dark mode theme now.
 
-If you're interested, the full source is available [here](https://github.com/pvzig/bytesized.co)[^4].
+If you're interested, the full source is available [here](https://github.com/pvzig/bytesized.co)[^3].
 
 [^1]: Included in "extended" markdown syntax.
-[^2]: Added in Swift 5.1 to support SwiftUI.
-[^3]: Domain-specific language.
-[^4]: There are a few interesting expansions of Publish's functionality in there like pagination.
+[^2]: Domain-specific language.
+[^3]: There are a few interesting expansions of Publish's functionality in there like pagination.
