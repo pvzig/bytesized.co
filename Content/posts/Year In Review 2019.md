@@ -1,7 +1,7 @@
 ---
 date: 2020-01-01
 title: 2019
-path: 2019.html
+path: 2019
 ---
 Had a second kid! Took time off for paternity leave.
 For the first time since 2016 I didn’t change jobs in September. We didn’t move this year and are happily settling (back) into our life here in Durham, NC. 
