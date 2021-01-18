@@ -3,7 +3,7 @@ date: 2021-01-01
 title: Hindsight 2020
 path: 2020.html
 ---
-*Fin.*
+*fin.*
 
 **Books**
 
@@ -11,18 +11,18 @@ path: 2020.html
 
 **Music**
 
--[The Avalanches - We Will Always Love You](https://open.spotify.com/album/755yBlrk0Sz8tIgMMTgyr1)
--[Baths - Pop Music / False B-Sides II](https://open.spotify.com/album/7CNADHu4cWUHE2b6ESIHCx)
--[Caribou - Suddenly](https://open.spotify.com/album/4wSb7OhVUzw3u76lta9fJw)
--[The Flaming Lips - American Head](https://open.spotify.com/album/4H8NX3ovAZdY2iJmwSNqlw)
--[Fleet Foxes - Shore](https://open.spotify.com/album/0lmjCPEcec2k6L7ysNIcd3)
--[George Clanton and Nick Hexum - ST](https://open.spotify.com/album/714XLbWXbM8C6sfaYALRG7)
--[Glass Animals - Dreamland](https://open.spotify.com/album/5bfpRtBW7RNRdsm3tRyl3R)
--[Oneohtrix Point Never - Magic Oneohtrix Point Never](https://open.spotify.com/album/0oGzSazidykcL5XNTEuS9z)
--[Slaughter Beach, Dog - Safe and Also No Fear](https://open.spotify.com/album/7onGDnOKEPthEaTzMf421i)
--[Stephen Steinbrink - Utopia Teased](https://open.spotify.com/album/3K6PMtwTxhCo5aJ2XMehT7)
--[Sylvan Esso - Free Love](https://open.spotify.com/album/2KAPJ40On8JY1Yt64JJgTk)
--[Taylor Swift - folklore](https://open.spotify.com/album/2fenSS68JI1h4Fo296JfGr)
+- [The Avalanches - We Will Always Love You](https://open.spotify.com/album/755yBlrk0Sz8tIgMMTgyr1)
+- [Baths - Pop Music / False B-Sides II](https://open.spotify.com/album/7CNADHu4cWUHE2b6ESIHCx)
+- [Caribou - Suddenly](https://open.spotify.com/album/4wSb7OhVUzw3u76lta9fJw)
+- [The Flaming Lips - American Head](https://open.spotify.com/album/4H8NX3ovAZdY2iJmwSNqlw)
+- [Fleet Foxes - Shore](https://open.spotify.com/album/0lmjCPEcec2k6L7ysNIcd3)
+- [George Clanton and Nick Hexum - ST](https://open.spotify.com/album/714XLbWXbM8C6sfaYALRG7)
+- [Glass Animals - Dreamland](https://open.spotify.com/album/5bfpRtBW7RNRdsm3tRyl3R)
+- [Oneohtrix Point Never - Magic Oneohtrix Point Never](https://open.spotify.com/album/0oGzSazidykcL5XNTEuS9z)
+- [Slaughter Beach, Dog - Safe and Also No Fear](https://open.spotify.com/album/7onGDnOKEPthEaTzMf421i)
+- [Stephen Steinbrink - Utopia Teased](https://open.spotify.com/album/3K6PMtwTxhCo5aJ2XMehT7)
+- [Sylvan Esso - Free Love](https://open.spotify.com/album/2KAPJ40On8JY1Yt64JJgTk)
+- [Taylor Swift - folklore](https://open.spotify.com/album/2fenSS68JI1h4Fo296JfGr)
 
 **TV**
 
@@ -34,11 +34,11 @@ path: 2020.html
 
 **Apps (iOS)**
 
--[Github](https://apps.apple.com/us/app/github/id1477376905)
+- [Github](https://apps.apple.com/us/app/github/id1477376905)
 
 **Apps (macOS)**
 
--[Mimestream](https://mimestream.com)
+- [Mimestream](https://mimestream.com)
 
 **Games**
 
