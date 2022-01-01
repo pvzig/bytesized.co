@@ -1,4 +1,3 @@
-# Twenty Twenty Won
 ---
 date: 2022-01-01
 title: Twenty Twenty Won
