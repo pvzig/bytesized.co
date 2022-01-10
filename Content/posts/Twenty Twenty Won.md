@@ -32,6 +32,7 @@ Another year of our never-ending pandemic creeps to it's conclusion. An ebb and 
 **Games**
 - [Deathloop](https://store.steampowered.com/app/1252330/DEATHLOOP/)
 - [Disco Elysium: The Final Cut](https://store.steampowered.com/app/632470/Disco_Elysium__The_Final_Cut/)
+- [Metro Exodus](https://store.steampowered.com/app/412020/Metro_Exodus/)
 - [Psychonauts 2](https://store.steampowered.com/app/607080/Psychonauts_2/)
 
 **Apps (iOS)**
