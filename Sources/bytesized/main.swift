@@ -22,8 +22,17 @@ struct Bytesized: Website {
 }
 
 extension Website {
+    private var yearFormatter: DateFormatter {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "yyyy"
+        return formatter
+    }
+    
     var byline: String { "by Peter Zignego" }
-    var footer: String { "Copyright © 2020 Peter Zignego" }
+    var footer: String {
+        let year = yearFormatter.string(from: Date())
+        return "Copyright © \(year) Peter Zignego"
+    }
 }
 
 try Bytesized().publish(using: [
