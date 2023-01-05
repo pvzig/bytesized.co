@@ -18,7 +18,7 @@ struct Bytesized: Website {
     var name = "bytesized"
     var language: Language { .english }
     var imagePath: Path? { nil }
-    var description: String { "by Peter Zignego" }
+    var description: String { "a web log" }
 }
 
 extension Website {
@@ -28,7 +28,6 @@ extension Website {
         return formatter
     }
     
-    var byline: String { "by Peter Zignego" }
     var footer: String {
         let year = yearFormatter.string(from: Date())
         return "Copyright © \(year) Peter Zignego"

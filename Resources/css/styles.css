@@ -21,7 +21,8 @@ body {
 }
 
 .content {
-	font-family: 'Ringside Regular SSm A', 'Ringside Regular SSm B', 'Helvetica', sans-serf;
+	font-family: 'Quarto A', 'Quarto B', serif;
+	font-weight: 300;
 }
 
 h1 {
@@ -83,12 +84,12 @@ a:hover {
 }
 
 .header {
-	font-family: 'Gotham SSm A', 'Gotham SSm B', 'Helvetica', sans-serif;
-	font-weight: 700;
+	font-family: 'Archer A', 'Archer B', serif;
+	font-weight: 100;
 	font-size: 40px;
 	color: var(--text-color);
 	padding: 16px 0px 0px 0px;
-	text-align: left;
+	text-align: center;
 }
 
 .header a {
@@ -103,17 +104,8 @@ a:hover {
 	border-bottom: none;
 }
 
-.byline {
-	font-family: 'Gotham SSm A', 'Gotham SSm B', 'Helvetica', sans-serif;
-	font-weight: 400;
-	font-size: 14px;
-	color: var(--text-color);
-	text-align: left;
-	padding-bottom: 16px;
-}
-
 .title {
-	font-family: 'Operator Mono SSm A', 'Operator Mono SSm B', monospace;
+	font-family: 'Knockout 30 A', 'Knockout 30 B', serif;
 	font-weight: 400;
 	font-size: 26px;
 	color: var(--text-color);
@@ -133,16 +125,16 @@ a:hover {
 }
 
 .date {
-	font-family: 'Operator Mono SSm A', 'Operator Mono SSm B', monospace;
-	font-weight: 300;
+	font-family: 'Knockout 30 A', 'Knockout 30 B', serif;
+	font-weight: 400;
 	font-size: 16px;
 	color: var(--light-text-color);
 	padding: 5px 0px 0px 0px;
 }
 
 .footer {
-	font-family: 'Ringside Regular SSm A', 'Ringside Regular SSm B', 'Helvetica', sans-serf;
-	font-weight: 300;
+	font-family: 'Knockout 30 A', 'Knockout 30 B', serif;
+	font-weight: 400;
 	font-size: 12px;
 	color: var(--light-text-color);
 }

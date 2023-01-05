@@ -141,8 +141,7 @@ private extension Node where Context == HTML.BodyContext {
     static func header<T: Website>(for context: PublishingContext<T>) -> Node {
         return .header(
             .class("header"),
-            .a(.class("site-name"), .href("/"), .text(context.site.name)),
-            .div(.class("byline"), .text(context.site.byline))
+            .a(.class("site-name"), .href("/"), .text(context.site.name))
         )
     }
     
