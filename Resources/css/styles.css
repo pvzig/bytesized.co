@@ -154,7 +154,7 @@ a:hover {
 }
 
 .footnotes {
-    font-size: 16px;
+    font-size: 16px !important;
 }
 
 pre {

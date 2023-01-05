@@ -32,7 +32,7 @@ extension String {
              }
 
              /// Add a divider and make the section an ordered list
-             let olTemplate = "</p><hr/><ol>$0</ol>"
+             let olTemplate = "</p><hr/><ol><div class='footnotes'>$0</div></ol>"
              str = olExpression.stringByReplacingMatches(in: str, options: [], range: NSMakeRange(0, str.utf16.count), withTemplate: olTemplate)
 
              /// Turn references in the style `[^n]:` into links
@@ -44,7 +44,7 @@ extension String {
              let fnExpression = try NSRegularExpression(pattern: "(\\[\\^([\\d]+)\\])", options: [])
              let fnTemplate = "<sup id=\"fnr$2-\(formatter.string(from: date))\"><a href=\"#fn$2-\(formatter.string(from: date))\">$2</a></sup>"
              str = fnExpression.stringByReplacingMatches(in: str, options: [], range: NSMakeRange(0, str.utf16.count), withTemplate: fnTemplate)
-             return "<div class='footnotes'>\(str)</div>"
+             return str
          } catch _ {
              return self
          }
