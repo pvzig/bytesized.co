@@ -153,7 +153,7 @@ a:hover {
 	border-bottom: 1px solid var(--highlight-color);
 }
 
-.footnotes {
+.footnotes p {
     font-size: 16px !important;
 }
 
