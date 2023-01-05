@@ -21,7 +21,7 @@ body {
 }
 
 .content {
-	font-family: 'Quarto A', 'Quarto B', serif;
+	font-family: 'Mercury SSm A', 'Mercury SSm B', serif;
 	font-weight: 300;
 }
 
@@ -38,7 +38,7 @@ h2 {
 
 p {
 	font-weight: 300;
-	font-size: 16px;
+	font-size: 20px;
 	line-height: 26px;
 }
 
@@ -107,7 +107,7 @@ a:hover {
 .title {
 	font-family: 'Knockout 30 A', 'Knockout 30 B', serif;
 	font-weight: 400;
-	font-size: 26px;
+	font-size: 34px;
 	color: var(--text-color);
 	padding: 30px 0px 0px 0px;
 }
@@ -135,19 +135,19 @@ a:hover {
 .footer {
 	font-family: 'Knockout 30 A', 'Knockout 30 B', serif;
 	font-weight: 400;
-	font-size: 12px;
+	font-size: 14px;
 	color: var(--light-text-color);
 }
 
 .footer a {
-	font-size: 14px;
+	font-size: 16px;
 	color: var(--highlight-color);
 	text-decoration: none;
 	border-bottom: 1px dotted var(--highlight-color);
 }
 
 .footer a:hover {
-	font-size: 14px;
+	font-size: 16px;
 	color: var(--highlight-color);
 	text-decoration: none;
 	border-bottom: 1px solid var(--highlight-color);
