@@ -153,6 +153,10 @@ a:hover {
 	border-bottom: 1px solid var(--highlight-color);
 }
 
+.footnotes {
+    font-size: 16px;
+}
+
 pre {
 	width: auto;
 	padding: 10px;

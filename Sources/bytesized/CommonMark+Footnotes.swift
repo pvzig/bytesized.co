@@ -44,7 +44,7 @@ extension String {
              let fnExpression = try NSRegularExpression(pattern: "(\\[\\^([\\d]+)\\])", options: [])
              let fnTemplate = "<sup id=\"fnr$2-\(formatter.string(from: date))\"><a href=\"#fn$2-\(formatter.string(from: date))\">$2</a></sup>"
              str = fnExpression.stringByReplacingMatches(in: str, options: [], range: NSMakeRange(0, str.utf16.count), withTemplate: fnTemplate)
-             return str
+             return "<div class='footnotes'>\(str)</div>"
          } catch _ {
              return self
          }
