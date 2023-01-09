@@ -94,6 +94,16 @@ private extension Node where Context == HTML.DocumentContext {
             .meta(.name("viewport"), .content("width=device-width, initial-scale=1")),
             .meta(.name("description"), .content(site.description)),
             .title(location.title),
+            .script(
+                .text(
+                    """
+                    function randomImg(){
+                        var num = Math.ceil( Math.random() * 31 );
+                        return '/images/logo/'+num+'.png';
+                    };
+                    """
+                )
+            ),
             .link(.rel(.stylesheet), .href("/css/styles.css"), .type("text/css")),
             .link(.rel(.stylesheet), .href("/css/normalized.css"), .type("text/css")),
             .link(.rel(.stylesheet), .href("/css/pure/pure-min.css"), .type("text/css")),
@@ -141,7 +151,16 @@ private extension Node where Context == HTML.BodyContext {
     static func header<T: Website>(for context: PublishingContext<T>) -> Node {
         return .header(
             .class("header"),
-            .a(.class("site-name"), .href("/"), .text(context.site.name))
+            .a(
+                .class("site-name"),
+                .href("/"),
+                .img(
+                    .src("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNk+P+/HgAFhAJ/wlseKgAAAABJRU5ErkJggg=="),
+                    .attribute(named: "onload", value: "this.onload=null; this.src=randomImg();"),
+                    .attribute(named: "height", value: "50%"),
+                    .attribute(named: "width", value: "50%")
+                )
+            )
         )
     }
     

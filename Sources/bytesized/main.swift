@@ -15,7 +15,7 @@ struct Bytesized: Website {
     }
 
     var url = URL(string: "https://bytesized.co")!
-    var name = "bytesized"
+    var name = "bytesized.co"
     var language: Language { .english }
     var imagePath: Path? { nil }
     var description: String { "a web log" }

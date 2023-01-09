@@ -84,12 +84,8 @@ a:hover {
 }
 
 .header {
-	font-family: 'Archer A', 'Archer B', serif;
-	font-weight: 100;
-	font-size: 20px;
-	color: var(--text-color);
-	padding: 16px 0px 0px 0px;
 	text-align: center;
+    padding: 30px 0px 30px 0px;
 }
 
 .header a {
