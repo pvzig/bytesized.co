@@ -14,7 +14,7 @@ Decided to try out one of the paid search engines instead of Google and switched
 The rest of the best below.
 
 **Music**
-- [Beach House - Once Twice Melody](open.spotify.com/album/79NySyjxJ8xric31mXKMAo)
+- [Beach House - Once Twice Melody](https://open.spotify.com/album/79NySyjxJ8xric31mXKMAo)
 - [The Beatles - Revolver (Super Deluxe)](https://open.spotify.com/album/7C221PnWhYGv8Tc0xSbfdc)
 - [Bob Moses - The Silence in Between](https://open.spotify.com/album/0qC7OBo3dCONK0fgHbySdU)
 - [Braxe + Falcon - Step by Step EP](https://open.spotify.com/album/2qb4klDPb2N7lXTLfW5XKe)
@@ -39,13 +39,13 @@ The rest of the best below.
 - [Top Gun: Maverick](https://itunes.apple.com/us/movie/top-gun-maverick/id1622173773)
 
 **Games**
-- [Across The Obelisk](store.steampowered.com/app/1385380/Across_the_Obelisk)
-- [Death’s Door](store.steampowered.com/app/894020/Deaths_Door)
-- [Elden Ring](store.steampowered.com/app/1245620/ELDEN_RING)
-- [Norco](store.steampowered.com/app/1221250/NORCO)
-- [Omega Strikers](store.steampowered.com/app/1869590/Omega_Strikers)
-- [The Swapper (2013)](store.steampowered.com/app/231160/The_Swapper)
-- [Wordle](nytimes.com/games/wordle/index.html)
+- [Across The Obelisk](https://store.steampowered.com/app/1385380/Across_the_Obelisk)
+- [Death’s Door](https://store.steampowered.com/app/894020/Deaths_Door)
+- [Elden Ring](https://store.steampowered.com/app/1245620/ELDEN_RING)
+- [Norco](https://store.steampowered.com/app/1221250/NORCO)
+- [Omega Strikers](https://store.steampowered.com/app/1869590/Omega_Strikers)
+- [The Swapper (2013)](https://store.steampowered.com/app/231160/The_Swapper)
+- [Wordle](https://nytimes.com/games/wordle/index.html)
 
 **Apps**
 - [Arc](https://arc.net/)[^1]
