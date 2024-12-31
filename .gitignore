@@ -4,3 +4,4 @@ Output/*
 /.swiftpm/*
 /.publish
 /.build
+.vscode/settings.json
