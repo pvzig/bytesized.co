@@ -60,7 +60,7 @@ try Bytesized().publish(using: [
                 if i == 0 {
                     continue
                 }
-                let page = Page(path: "/page/\(i)", content: context.pageContent(for: i, items: chunk))
+                let page = Page(path: "/page/\(i)/index.html", content: context.pageContent(for: i, items: chunk))
                 context.addPage(page)
             }
         }
