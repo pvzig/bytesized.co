@@ -1,7 +1,7 @@
 ---
 date: 2015-07-16
 title: Purge the App Store
-path: purge-the-app-store
+path: purge-the-app-store.html
 ---
 It’s time for Apple to clean up the App Store. The App Store arms race is over - both iOS and Android are entrenched as platforms, and both platforms get all major apps eventually. For WWDC this year, Apple released a [promotional video titled “The App Effect”](https://www.youtube.com/watch?v=fSiDIaab2nY) that boasted over 1,500,000 applications in the App Store, with over 100 billion downloads of those applications. And the App Store has tremendous velocity, [adding over 1,000 new apps per day](http://www.ibtimes.co.uk/apple-app-store-growing-by-over-1000-apps-per-day-1504801). But there are an increasing number of “zombie applications” that remain on the store, abandoned, gumming up search results, impeding app discovery, and generally degrading the perceived quality of the App Store.
 

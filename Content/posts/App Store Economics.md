@@ -1,7 +1,7 @@
 ---
 date: 2015-10-25
 title: Solving for the Marginal Utility of an App (Or: App Store Economics, Again?)
-path: solving-for-the-marginal-utility-of-an-app
+path: solving-for-the-marginal-utility-of-an-app.html
 ---
 At [Apple’s big fall event last month](http://www.apple.com/apple-events/september-2015/), alongside the new iPhones and a larger iPad, they unveiled an entirely new platform - [tvOS](https://developer.apple.com/tvos/). The announcement has stirred up fresh discussions of an evergreen topic for Apple’s third-party developers - the sustainability of building software for Apple’s platforms. I’ll be focusing on the ‘what’ and the ‘how’ here - the [‘why’](https://stratechery.com/2015/from-products-to-platforms/) [has](http://stratechery.com/2013/papering-over-app-store-problems/) [been](http://stratechery.com/2013/casual-gaming-is-a-sustainable-business-but-not-a-platform-differentiator/) [covered](http://stratechery.com/2013/why-doesnt-apple-enable-sustainable-businesses-on-the-app-store/) [extensively](http://www.marco.org/2014/07/28/app-rot).
 

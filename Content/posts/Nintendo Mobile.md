@@ -1,7 +1,7 @@
 ---
 date: 2015-06-03
 title: Nintendo Mobile
-path: nintendo-mobile
+path: nintendo-mobile.html
 ---
 Since they popularized the category with the Game Boy in 1989 Nintendo has been the king of mobile gaming, selling over 400 million portable gaming systems. Competitors like Sega with it’s Game Gear and Sony with their Playstation portables have never managed to approach Nintendo’s level of success. The Nintendo 3DS, Nintendo’s newest handheld console and the first to be launched in the smartphone era, has sold reasonably well since it's introduction in 2011 — just over 50 million units — but at only half the annual rate of it’s predecessor the Nintendo DS, which moved 20 million units per year over it’s lifetime. These flagging sales numbers combined with Google's [1 billion active Android users](http://www.theverge.com/2014/6/25/5841924/google-android-users-1-billion-stats) and sales of Apple’s iOS devices [passing 1 billion](https://twitter.com/pschiller/status/560197288048340992) in January have had analysts, journalists, and Nintendo fans alike clambering that Nintendo has a smartphone problem.
 

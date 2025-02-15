@@ -1,9 +1,9 @@
 ---
 date: 2016-12-19
 title: Generated Swiftly
-path: generated-swiftly
+path: generated-swiftly.html
 ---
-After [just about a year](https://bytesized.co/powered-by-typed-dot-com.html) of being hosted on [Typed](https://www.typed.com), [bytesized.co](https://www.bytesized.co) is now statically generated and hosted on [S3](https://aws.amazon.com/s3/)[^1] — and it’s generated with Swift!
+After [just about a year](/posts/powered-by-typed-dot-com.html) of being hosted on [Typed](https://www.typed.com), [bytesized.co](https://www.bytesized.co) is now statically generated and hosted on [S3](https://aws.amazon.com/s3/)[^1] — and it’s generated with Swift!
 
 For the static generator, I’m using a [fork](https://github.com/pvzig/Spelt) of the [open source engine](https://github.com/njdehoog/Spelt) that powers the [Spelt](https://spelt.io) blogging software by [Niels de Hoog](https://twitter.com/nielsify). It’s lightning fast and offers some nice features like local preview with auto-regeneration. It’s also easily customizable if you’re familiar with Swift. Under the hood, Spelt uses Kyle Fuller’s Swift template language [Stencil](https://github.com/kylef/Stencil) to provide [Mustache](https://mustache.github.io)-style templating. If you’re curious about what this looks like in practice, I’ve published the source for the new version of the site on [GitHub](https://github.com/pvzig/bytesized.co).
 

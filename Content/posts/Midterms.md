@@ -1,7 +1,7 @@
 ---
 date: 2018-11-06
 title: Midterms
-path: midterms2018
+path: midterms2018.html
 ---
 
 From my home office, I can hear the pleased squeals and shrieks emanating from downstairs. A stampede of thumping knees across the floor, a high speed chase.

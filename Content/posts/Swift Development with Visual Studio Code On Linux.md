@@ -1,7 +1,7 @@
 ---
 date: 2018-12-21
 title: Swift Development with Visual Studio Code — On Linux!
-path: vscode
+path: vscode.html
 ---
 After reading Mattt's [excellent NSHipster article](https://nshipster.com/vscode/) on building the fledgling [Swift Language Server Protocol](https://github.com/apple/sourcekit-lsp) project, I scrolled back up and stared at *Step 0: Install Xcode*. It didn't seem strictly necessary, based on what followed. And as I’m sure you’ve deduced by the title and existence of this post, it’s not. Below is a short step-by-step guide to building and running the Swift Language Server Protocol on linux[^1]. The following instructions assume either a basic understanding of a unix-style command line and/or a willingness to copy and paste superuser commands from the internet into your terminal program of choice.
 

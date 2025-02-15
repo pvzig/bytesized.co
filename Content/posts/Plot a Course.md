@@ -1,9 +1,9 @@
 ---
 date: 2020-06-20
 title: Plot a Course
-path: plot
+path: plot.html
 ---
-A few years ago as a part of my explorations with Swift, I started [statically generating](/posts/generated-swiftly) this site using Swift. Now, this was way back in the bad old days of Swift 3, before we had modern conveniences like ABI stability — so when I upgraded my personal laptop this winter, I inadvertently lost the Swift toolchain that I had used to compile my customized fork of [Spelt](https://github.com/njdehoog/Spelt). After a bit of spelunking, I realized that it had been built with some beta version of Xcode long since lost to the sands of time — I was stuck with a binary I couldn’t run.
+A few years ago as a part of my explorations with Swift, I started [statically generating](/posts/generated-swiftly.html) this site using Swift. Now, this was way back in the bad old days of Swift 3, before we had modern conveniences like ABI stability — so when I upgraded my personal laptop this winter, I inadvertently lost the Swift toolchain that I had used to compile my customized fork of [Spelt](https://github.com/njdehoog/Spelt). After a bit of spelunking, I realized that it had been built with some beta version of Xcode long since lost to the sands of time — I was stuck with a binary I couldn’t run.
 
 As Spelt was no longer being actively developed, rather than take the time to convert it to Swift 5 and recompile I used the disruption as an opportunity to move to a newly released Swift static site generator, [John Sundell's](https://twitter.com/johnsundell) [Publish](https://github.com/JohnSundell/Publish). Over the course of the week I spent converting this site to use Publish, I was frustrated by a lot of the built-in assumptions and general inflexibility. While I am sure that it is a great [Swift by Sundell](https://www.swiftbysundell.com) generator, it is not (yet) a great general-purpose static site generator.
 

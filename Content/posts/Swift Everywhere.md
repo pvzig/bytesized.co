@@ -1,7 +1,7 @@
 ---
 date: 2015-06-11
 title: Swift Everywhere
-path: swift-everywhere
+path: swift-everywhere.html
 ---
 Monday marked the beginning of Apple’s annual Worldwide Developer Conference, or WWDC for short. Along with new versions of their iOS and OS X operating systems, they announced that they would be [open sourcing their Swift programming language](https://developer.apple.com/swift/blog/?id=29), including support for Linux. This drew by far the largest cheers of the day from the 5,000 or so developers who had assembled in Moscone West for the kickoff keynote. While Apple [doesn’t have a perfect track record](http://www.imore.com/why-facetime-quality-might-have-dropped-why-apple-still-hasnt-released-it-open-standard-and-patent) when it comes to following through on open source promises, it has [been better lately](https://github.com/researchkit/researchkit). And there are a few good reasons that developers are so excited about the proposition of Swift being open sourced.
 

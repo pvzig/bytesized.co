@@ -1,7 +1,7 @@
 ---
 date: 2020-07-04
 title: Coronavirus Blues
-path: coronavirus-blues
+path: coronavirus-blues.html
 ---
 Stay inside, we need to plan\
 wash your hands (happy birthday, twice)\
