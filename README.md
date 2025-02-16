@@ -5,7 +5,7 @@ bytesized.co is statically generated using [Publish](https://github.com/JohnSund
 
 ## Testing Locally
 ```bash
-public run
+publish run
 ```
 
 ## Publishing to S3
