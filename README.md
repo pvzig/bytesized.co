@@ -22,5 +22,6 @@ https://github.com/pvzig/bytesized.co/blob/master/.github/workflows/deploy.yml
 
 Configure the following secrets in Github (/repo/settings/secrets)
 - `AWS_S3_BUCKET`
+- `CLOUDFRONT_DISTRIBUTION_ID`
 - `AWS_ACCESS_KEY_ID`
 - `AWS_SECRET_ACCESS_KEY`
