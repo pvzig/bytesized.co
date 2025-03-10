@@ -11,12 +11,21 @@
         }
       },
       {
-        "package": "CommonMark",
-        "repositoryURL": "https://github.com/SwiftDocOrg/CommonMark",
+        "package": "CollectionConcurrencyKit",
+        "repositoryURL": "https://github.com/johnsundell/collectionConcurrencyKit.git",
         "state": {
           "branch": null,
-          "revision": "62176a332884826997928ba578d9d322c16772fb",
-          "version": "0.4.0"
+          "revision": "b4f23e24b5a1bff301efc5e70871083ca029ff95",
+          "version": "0.2.0"
+        }
+      },
+      {
+        "package": "CommonMark",
+        "repositoryURL": "https://github.com/pvzig/CommonMark",
+        "state": {
+          "branch": "main",
+          "revision": "b141cad2ec23b9e7b3dd10c04c9205f7ea16dc70",
+          "version": null
         }
       },
       {
@@ -24,8 +33,8 @@
         "repositoryURL": "https://github.com/johnsundell/files.git",
         "state": {
           "branch": null,
-          "revision": "22fe84797d499ffca911ccd896b34efaf06a50b9",
-          "version": "4.1.1"
+          "revision": "d273b5b7025d386feef79ef6bad7de762e106eaf",
+          "version": "4.2.0"
         }
       },
       {
@@ -33,8 +42,8 @@
         "repositoryURL": "https://github.com/johnsundell/ink.git",
         "state": {
           "branch": null,
-          "revision": "bd223a2482449507bd3286cb262c962d32d81e4b",
-          "version": "0.5.0"
+          "revision": "bcc9f219900a62c4210e6db726035d7f03ae757b",
+          "version": "0.6.0"
         }
       },
       {
@@ -42,8 +51,8 @@
         "repositoryURL": "https://github.com/johnsundell/plot.git",
         "state": {
           "branch": null,
-          "revision": "61e828949ca6f84071bde65c8fc046cf74b7d1a2",
-          "version": "0.8.0"
+          "revision": "271926b4413fe868739d99f5eadcf2bd6cd62fb8",
+          "version": "0.14.0"
         }
       },
       {
@@ -51,7 +60,7 @@
         "repositoryURL": "https://github.com/pvzig/Publish",
         "state": {
           "branch": "master",
-          "revision": "248092234a0152516db894999e581371aa116876",
+          "revision": "cd8ab621ee103a97bacafb27dfd4f41aeec89eff",
           "version": null
         }
       },
@@ -62,6 +71,15 @@
           "branch": null,
           "revision": "e1577acf2b6e90086d01a6d5e2b8efdaae033568",
           "version": "2.3.0"
+        }
+      },
+      {
+        "package": "Splash",
+        "repositoryURL": "https://github.com/johnsundell/Splash.git",
+        "state": {
+          "branch": null,
+          "revision": "7f4df436eb78fe64fe2c32c58006e9949fa28ad8",
+          "version": "0.16.0"
         }
       },
       {
@@ -78,8 +96,8 @@
         "repositoryURL": "https://github.com/SwiftDocOrg/swift-cmark.git",
         "state": {
           "branch": null,
-          "revision": "1168665f6b36be747ffe6b7b90bc54cfc17f42b7",
-          "version": "0.28.3+20200207.1168665"
+          "revision": "9c8096a23f44794bde297452d87c455fc4f76d42",
+          "version": "0.29.0+20210102.9c8096a"
         }
       }
     ]

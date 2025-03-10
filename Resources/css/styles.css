@@ -1,6 +1,5 @@
 :root {
 	color-scheme: light dark;
-	supported-color-schemes: light dark;
 	/* Variables */
 	--background-color: #FFFFFF;
 	--text-color: #000;
@@ -12,7 +11,6 @@
 * {
 	margin: 0;
 	padding: 0;
-	background-color: var(--background-color);
 }
 
 @font-face {
@@ -35,6 +33,7 @@
 
 body {
 	color: var(--text-color);
+	background-color: var(--background-color);
 	padding: 16px;
 }
 
@@ -173,18 +172,81 @@ a:hover {
 
 pre {
 	width: auto;
-	padding: 10px;
 	left: 0;
 	right: 0;
+	overflow-x: auto;
 	background-color: var(--code-background-color);
+	padding: 5px;
+	line-height: 1.25;
 }
 
 code {
 	font-family: 'IBM Plex Mono', monospace !important;
 	font-size: 13px !important;
 	font-weight: 400 !important;
-	padding: 5px;
 	background-color: var(--code-background-color);
+	line-height: 1.25;
+}
+
+/* Splash Syntax Highlighting */
+.splash-keyword {
+	color: #9B2393; /* Xcode light theme: purple */
+}
+
+.splash-string {
+	color: #C41A16; /* Xcode light theme: red */
+}
+
+.splash-type {
+	color: #0F68A0; /* Xcode light theme: blue */
+}
+
+.splash-call {
+	color: #326D74; /* Xcode light theme: teal */
+}
+
+.splash-property {
+	color: #326D74; /* Xcode light theme: teal (same as function calls) */
+}
+
+.splash-number {
+	color: #1C00CF; /* Xcode light theme: blue-purple */
+}
+
+.splash-comment {
+	color: #536570; /* Xcode light theme: gray */
+	font-style: italic;
+}
+
+/* Dark mode adjustments - Dracula theme */
+@media (prefers-color-scheme: dark) {
+	.splash-keyword {
+		color: #FF79C6; /* Dracula: pink */
+	}
+	
+	.splash-string {
+		color: #F1FA8C; /* Dracula: yellow */
+	}
+	
+	.splash-type {
+		color: #8BE9FD; /* Dracula: cyan */
+	}
+	
+	.splash-call {
+		color: #50FA7B; /* Dracula: green */
+	}
+	
+	.splash-property {
+		color: #BD93F9; /* Dracula: purple */
+	}
+	
+	.splash-number {
+		color: #BD93F9; /* Dracula: purple */
+	}
+	
+	.splash-comment {
+		color: #6272A4; /* Dracula: comment blue */
+	}
 }
 
 @media (prefers-color-scheme: dark) {

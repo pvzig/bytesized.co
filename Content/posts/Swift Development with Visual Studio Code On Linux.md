@@ -29,7 +29,7 @@ At this point, you’re all set up to use the Swift Language Server on linux. A 
 
 Let’s clone and build a sample project so we can see it in action:
 
-```
+```bash
 $ git clone https://www.github.com/JohnSundell/Splash.git
 $ cd Splash
 $ swift build

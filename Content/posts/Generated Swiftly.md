@@ -9,7 +9,7 @@ For the static generator, I’m using a [fork](https://github.com/pvzig/Spelt) o
 
 The combination of the Spelt CLI and the [AWS CLI](https://aws.amazon.com/cli/) make updating the site painless. No more copy and pasting articles into a rich-text web editor, hoping the formatting doesn’t get mangled. No more worrying if the site can parse the flavor of markdown I’m writing in. When an article is ready to be published, I just save the **.md** file to the **_posts** directory and run this script:
 
-```
+```bash
 cd ~/Sites/bytesized.co/
 spelt build
 cd _build
