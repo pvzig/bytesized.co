@@ -5,3 +5,4 @@ Output/*
 /.publish
 /.build
 .vscode/settings.json
+/CLAUDE.md
