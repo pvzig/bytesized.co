@@ -1,6 +1,6 @@
 import Foundation
-import Publish
 import Plot
+import Publish
 import ShellOut
 
 struct Bytesized: Website {
@@ -27,30 +27,51 @@ extension Website {
         formatter.dateFormat = "yyyy"
         return formatter
     }
-    
+
     var footer: String {
         let year = yearFormatter.string(from: Date())
         return "Copyright © \(year) Peter Zignego"
     }
+
+    func publishAsync(
+        at path: Path? = nil,
+        using steps: [PublishingStep<Self>],
+        file: StaticString = #filePath
+    ) async throws -> PublishedWebsite<Self> {
+        let publish:
+            (Path?, [PublishingStep<Self>], StaticString) async throws
+                -> PublishedWebsite<Self> = self.publish
+        return try await publish(path, steps, file)
+    }
 }
 
-try Bytesized().publish(using: [
+func parseBytesizedContent(_ text: String, metadata: Bytesized.ItemMetadata) -> Content {
+    Content(body: Content.Body(stringLiteral: commonMarkBody(text, metadata: metadata)))
+}
+
+func applyBytesizedMetadata(_ item: inout Item<Bytesized>) {
+    item.content.title = item.metadata.title
+    item.content.date = item.metadata.date
+}
+
+_ = try await Bytesized().publishAsync(using: [
     .step(named: "Custom Date Formatter") { context in
         let formatter = DateFormatter()
         formatter.dateFormat = "yyyy-MM-dd"
         context.dateFormatter = formatter
     },
-    .copyResources(),
-    .addMarkdownFiles(customContentParser: { text, metadata -> Content in
-        Content(body: Content.Body(stringLiteral: commonMarkBody(text, metadata: metadata)))
-    }),
+    .copyResources(
+        at: Path("Resources/images"), to: Path("images"), includingFolder: false),
+    .copyResources(at: Path("Resources/css"), to: Path("css"), includingFolder: false),
+    .copyResources(at: Path("Resources/fonts"), to: Path("fonts"), includingFolder: false),
+    .copyResources(
+        at: Path("Resources/bytesized-cafe-app"), to: Path("bytesized-cafe-app"),
+        includingFolder: true),
+    .addMarkdownFiles(customContentParser: parseBytesizedContent),
     .step(named: "Name Index") { context in
         context.index.title = context.site.name
     },
-    .mutateAllItems { item in
-        item.content.title = item.metadata.title
-        item.content.date = item.metadata.date
-    },
+    .mutateAllItems(using: applyBytesizedMetadata),
     .sortItems(by: \.metadata.date, order: .descending),
     .step(named: "Paginate") { context in
         for section in context.sections.ids {
@@ -60,28 +81,32 @@ try Bytesized().publish(using: [
                 if i == 0 {
                     continue
                 }
-                let page = Page(path: "/page/\(i)/index.html", content: context.pageContent(for: i, items: chunk))
+                let page = Page(
+                    path: "/page/\(i)/index.html",
+                    content: context.pageContent(for: i, items: chunk))
                 context.addPage(page)
             }
         }
     },
     .generateHTML(withTheme: .bytesized, fileMode: .standAloneFilesClean),
     .generateRSSFeed(including: [.posts]),
-    .deploy(using: .s3("bytesized.co"))
+    .deploy(using: .s3("bytesized.co")),
 ])
 
-public extension DeploymentMethod {
+extension DeploymentMethod {
     // Requires AWS CLI to be installed
-    static func s3(_ bucket: String) -> Self {
+    public static func s3(_ bucket: String) -> Self {
         DeploymentMethod(name: "S3 (\(bucket))") { context in
             let s3 = try context.createDeploymentFolder(withPrefix: "s3_", configure: { _ in })
             // HTML
             try shellOut(
-                to: "aws s3 sync \(s3.path) s3://\(bucket) --exclude '*' --exclude '*.DS_Store' --include 'posts/*' --include 'page/*' --include 'index.html' --content-type 'text/html'",
+                to:
+                    "aws s3 sync \(s3.path) s3://\(bucket) --exclude '*' --exclude '*.DS_Store' --include 'posts/*' --include 'page/*' --include 'index.html' --content-type 'text/html'",
                 outputHandle: FileHandle.standardOutput)
             // Resources
             try shellOut(
-                to: "aws s3 sync \(s3.path) s3://\(bucket) --include '*' --exclude 'posts/*' --exclude 'page/*' --exclude 'index.html' --exclude '*.DS_Store'",
+                to:
+                    "aws s3 sync \(s3.path) s3://\(bucket) --include '*' --exclude 'posts/*' --exclude 'page/*' --exclude 'index.html' --exclude '*.DS_Store'",
                 outputHandle: FileHandle.standardOutput)
         }
     }
