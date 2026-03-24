@@ -132,9 +132,8 @@ a:hover {
 	filter: drop-shadow(0 14px 18px rgba(0, 0, 0, 0.10));
 }
 
-.bytesized-cafe-app[data-state="processing"] .bytesized-cafe-image,
-.bytesized-cafe-app[data-state="queued"] .bytesized-cafe-image {
-	animation: simmer 3.6s ease-in-out infinite;
+.bytesized-cafe-app[data-state="preparing"] .bytesized-cafe-image {
+    animation: simmer 3.6s ease-in-out infinite;
 	transform-origin: 50% 78%;
 	will-change: transform;
 }
@@ -282,8 +281,7 @@ code {
 }
 
 @media (prefers-reduced-motion: reduce) {
-	.bytesized-cafe-app[data-state="processing"] .bytesized-cafe-image,
-	.bytesized-cafe-app[data-state="queued"] .bytesized-cafe-image {
+    .bytesized-cafe-app[data-state="preparing"] .bytesized-cafe-image {
 		animation: none;
 	}
 }

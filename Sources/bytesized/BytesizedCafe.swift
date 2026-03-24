@@ -8,18 +8,18 @@ enum BytesizedCafePageType: String {
 }
 
 struct BytesizedCafeConfiguration {
-    let functionURL: String
+    let apiURL: String
 
     static var current: Self? {
         guard
-            let functionURL = ProcessInfo.processInfo.environment["BYTESIZED_CAFE_FUNCTION_URL"]?
+            let apiURL = ProcessInfo.processInfo.environment["BYTESIZED_CAFE_API_URL"]?
                 .trimmingCharacters(in: .whitespacesAndNewlines),
-            !functionURL.isEmpty
+            !apiURL.isEmpty
         else {
             return nil
         }
 
-        return Self(functionURL: functionURL)
+        return Self(apiURL: apiURL)
     }
 }
 
@@ -32,9 +32,10 @@ extension Node where Context == HTML.AnchorContext {
         .div(
             .id("bytesized-cafe-app"),
             .class("bytesized-cafe-app"),
-            .attribute(named: "data-function-url", value: configuration?.functionURL ?? ""),
+            .attribute(named: "data-api-url", value: configuration?.apiURL ?? ""),
             .attribute(named: "data-page-path", value: pagePath),
             .attribute(named: "data-page-type", value: pageType.rawValue),
+            .attribute(named: "data-started", value: "ordered"),
             .attribute(named: "data-state", value: "idle"),
             .img(
                 .class("bytesized-cafe-image"),

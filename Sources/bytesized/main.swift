@@ -54,6 +54,14 @@ func applyBytesizedMetadata(_ item: inout Item<Bytesized>) {
     item.content.date = item.metadata.date
 }
 
+func copyBytesizedCafeApp(using context: PublishingContext<Bytesized>) throws {
+    let fileManager = FileManager.default
+    let sourceFolder = try context.folder(at: Path("bytesized-cafe-app"))
+    let destinationFolder = try context.createOutputFolder(at: Path("bytesized-cafe-app"))
+    try destinationFolder.delete()
+    try fileManager.copyItem(at: sourceFolder.url, to: destinationFolder.url)
+}
+
 _ = try await Bytesized().publishAsync(using: [
     .step(named: "Custom Date Formatter") { context in
         let formatter = DateFormatter()
@@ -62,11 +70,10 @@ _ = try await Bytesized().publishAsync(using: [
     },
     .copyResources(
         at: Path("Resources/images"), to: Path("images"), includingFolder: false),
-    .copyResources(at: Path("Resources/css"), to: Path("css"), includingFolder: false),
+    .copyFile(at: Path("Resources/css/normalized.css"), to: Path("css")),
+    .copyFile(at: Path("Resources/css/styles.css"), to: Path("css")),
+    .copyResources(at: Path("Resources/css/pure"), to: Path("css/pure"), includingFolder: false),
     .copyResources(at: Path("Resources/fonts"), to: Path("fonts"), includingFolder: false),
-    .copyResources(
-        at: Path("Resources/bytesized-cafe-app"), to: Path("bytesized-cafe-app"),
-        includingFolder: true),
     .addMarkdownFiles(customContentParser: parseBytesizedContent),
     .step(named: "Name Index") { context in
         context.index.title = context.site.name
@@ -90,6 +97,9 @@ _ = try await Bytesized().publishAsync(using: [
     },
     .generateHTML(withTheme: .bytesized, fileMode: .standAloneFilesClean),
     .generateRSSFeed(including: [.posts]),
+    .step(named: "Copy Bytesized Cafe app") { context in
+        try copyBytesizedCafeApp(using: context)
+    },
     .deploy(using: .s3("bytesized.co")),
 ])
 
