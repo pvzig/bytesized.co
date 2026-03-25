@@ -1,10 +1,12 @@
 # AGENTS.md
 
 Instructions for coding agents working on this repo.
-
+## General
+- When adding new dependencies, check Gtihub to make sure that you’re adding them at the latest release.
+- When naming files/targets, prefer non-project namespaced names (eg Server vs BytesizedServer)
 ## Validating Changes
 - Run the swift-format skill
-- Run the swift-test skill
+- Run `./Scripts/validate-deployment-config.sh` when changing `Backend/terraform` or `.github/workflows`
 - Keep `SPEC.md` up-to-date when making changes.
 - You don't need to run swift-format and swift-test to validate changes to markdown files.
 
@@ -25,9 +27,10 @@ Instructions for coding agents working on this repo.
 - Include proper metadata with title, date, and path
 
 ## Code Style Guidelines
-- Swift 5.2+ codebase using the Publish framework
+- Swift 6.2+ codebase using the Publish framework
 - Use descriptive variable/function names in camelCase
 - Consistent 4-space indentation 
+- Prefer `Struct` to `Enum` for general data structures
 - Group extensions with the type they extend
 - Use Swift's strong type system
 - Organize imports alphabetically: Foundation first, then third-party
