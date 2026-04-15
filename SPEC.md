@@ -234,7 +234,8 @@ The implementation is considered complete when:
 - The backend deploy workflow sets `HOST=0.0.0.0` and `PORT=8080` in Railway by default, unless the deploy job overrides `RAILWAY_RUNTIME_HOST` or `RAILWAY_RUNTIME_PORT`.
 - Secret values are synchronized with Railway through `railway variable set KEY --stdin` so they are not exposed on the command line during GitHub Actions runs.
 - Inline shell in the deployment and validation workflows is minimized in favor of reusable repo-root `just` recipes so the same deployment task entry points can be reused locally and in CI.
-- The site deploy job continues to build the SwiftWASM app and sync `Output/` to S3 using a fixed `BYTESIZED_CAFE_API_URL`.
+- The site deploy job installs Swift 6.2.3 with `swift-actions/setup-swift@v2.4.0`, installs the matching SwiftWasm SDK via `swiftwasm/setup-swiftwasm@v2.1` for `wasm32-unknown-wasip1`, and passes the resulting `swift-sdk-id` into `just wasm` so the deploy does not depend on the runner image's preinstalled Swift toolchain or SDK ordering.
+- The site deploy job continues to sync `Output/` to S3 using a fixed `BYTESIZED_CAFE_API_URL`.
 - After the S3 sync completes, the site deploy job invalidates the production CloudFront distribution with `CLOUDFRONT_DISTRIBUTION_ID` for `/index.html`, `/page/*`, and `/feed.rss`.
 - The site deploy sync no longer owns generated images, because they live in a separate generated-images bucket from the static site bucket.
 

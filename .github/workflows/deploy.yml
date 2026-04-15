@@ -88,8 +88,17 @@ jobs:
           : "${AWS_REGION:?AWS_REGION is required}"
           : "${BYTESIZED_CAFE_API_URL:?BYTESIZED_CAFE_API_URL is required}"
 
+      - name: Set up Swift
+        uses: swift-actions/setup-swift@v2.4.0
+        with:
+          swift-version: "6.2.3"
+
       - name: Set up SwiftWasm
-        uses: swiftwasm/setup-swiftwasm@v2
+        id: swiftwasm
+        uses: swiftwasm/setup-swiftwasm@v2.1
+        with:
+          tag: swift-6.2.3-RELEASE
+          target: wasm32-unknown-wasip1
 
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v4
@@ -102,6 +111,8 @@ jobs:
         run: brew install binaryen
 
       - name: Build SwiftWASM app
+        env:
+          SWIFT_WASM_SDK_ID: ${{ steps.swiftwasm.outputs.swift-sdk-id }}
         run: just wasm
 
       - name: Build site
