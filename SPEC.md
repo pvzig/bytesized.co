@@ -195,6 +195,7 @@ Backend request validation, environment validation, and terminal upstream failur
 
 ### 8.3 Site Deploy
 - `AWS_S3_BUCKET`
+- `CLOUDFRONT_DISTRIBUTION_ID`
 
 ## 9. Validation
 The implementation is considered complete when:
@@ -214,7 +215,7 @@ The implementation is considered complete when:
 - The backend container image is built from `Backend/` using the checked-in `Backend/Dockerfile`.
 - The checked-in `Backend/railway.toml` codifies the Railway deploy settings that should live in source control, currently the Dockerfile builder and `/health` healthcheck.
 - The checked-in `Scripts/sync-github-actions-config.sh` script codifies how overlapping GitHub Actions repository variables and secrets can be synchronized from the local `.ENV` file.
-- The checked-in `Scripts/sync-railway-backend-variables.sh` script codifies how GitHub Actions synchronizes backend runtime variables into Railway before deployment.
+- The checked-in `Scripts/sync-railway-backend-variables.sh` script codifies how GitHub Actions synchronizes backend runtime variables into Railway before deployment, requiring `RAILWAY_PROJECT_ID` in the environment because `railway variable set` resolves project context from the environment rather than a `--project` flag.
 - The deployable product is the `Server` executable.
 - Railway builds and runs the production image from GitHub pushes, targeting the backend service with `railway up Backend --ci --path-as-root`.
 - The runtime base image remains `swift:6.2.4-bookworm-slim`.
@@ -228,7 +229,7 @@ The implementation is considered complete when:
 - The backend deploy job authenticates with a Railway project token, synchronizes the backend runtime variables into Railway, and deploys the `Backend/` directory directly to the configured Railway project, environment, and service.
 - Railway service-level GitHub autodeploy should be disabled when the GitHub Actions workflow is the active deployment path, to avoid duplicate backend deployments from the same push.
 - GitHub Actions repository variables and secrets are the source of truth for the backend runtime variables `GENERATED_IMAGES_BUCKET`, `OPENAI_API_KEY`, `OPENAI_IMAGE_MODEL`, `IMAGE_GEN_PREFIX`, `AWS_REGION`, `AWS_ACCESS_KEY_ID`, and `AWS_SECRET_ACCESS_KEY`.
-- The overlapping GitHub Actions repository variables and secrets can be seeded from the local `.ENV` file with `Scripts/sync-github-actions-config.sh`, but deployment-only values such as `RAILWAY_PROJECT_ID`, `RAILWAY_ENVIRONMENT_NAME`, `RAILWAY_SERVICE_NAME`, `RAILWAY_TOKEN`, and `BYTESIZED_CAFE_API_URL` remain manually managed because they do not belong in the local development env file.
+- The overlapping GitHub Actions repository variables and secrets can be seeded from the local `.ENV` file with `Scripts/sync-github-actions-config.sh`, but deployment-only values such as `RAILWAY_PROJECT_ID`, `RAILWAY_ENVIRONMENT_NAME`, `RAILWAY_SERVICE_NAME`, `RAILWAY_TOKEN`, `BYTESIZED_CAFE_API_URL`, and `CLOUDFRONT_DISTRIBUTION_ID` remain manually managed because they do not belong in the local development env file.
 - The backend deploy workflow sets `HOST=0.0.0.0` and `PORT=8080` in Railway by default, unless the deploy job overrides `RAILWAY_RUNTIME_HOST` or `RAILWAY_RUNTIME_PORT`.
 - Secret values are synchronized with Railway through `railway variable set KEY --stdin` so they are not exposed on the command line during GitHub Actions runs.
 - Inline shell in the deployment and validation workflows is minimized in favor of reusable repo-root `just` recipes so the same deployment task entry points can be reused locally and in CI.

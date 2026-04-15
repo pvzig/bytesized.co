@@ -140,4 +140,5 @@ These deployment-only values still need to be managed separately because they ar
   - RAILWAY_SERVICE_NAME
   - RAILWAY_TOKEN
   - BYTESIZED_CAFE_API_URL
+  - CLOUDFRONT_DISTRIBUTION_ID
 EOF
