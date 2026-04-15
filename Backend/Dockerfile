@@ -8,6 +8,7 @@ RUN apt-get update \
 
 COPY Package.swift Package.resolved ./
 COPY Sources ./Sources
+COPY Tests ./Tests
 
 RUN swift build -c release --product Server
 

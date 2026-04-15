@@ -213,6 +213,7 @@ The implementation is considered complete when:
 
 ### 10.1 Container Build
 - The backend container image is built from `Backend/` using the checked-in `Backend/Dockerfile`.
+- The backend Docker build context includes `Tests/` alongside `Package.swift`, `Package.resolved`, and `Sources/` so SwiftPM can validate the package graph while building the `Server` executable.
 - The checked-in `Backend/railway.toml` codifies the Railway deploy settings that should live in source control, currently the Dockerfile builder and `/health` healthcheck.
 - The checked-in `Scripts/sync-github-actions-config.sh` script codifies how overlapping GitHub Actions repository variables and secrets can be synchronized from the local `.ENV` file.
 - The checked-in `Scripts/sync-railway-backend-variables.sh` script codifies how GitHub Actions synchronizes backend runtime variables into Railway before deployment, requiring `RAILWAY_PROJECT_ID` in the environment because `railway variable set` resolves project context from the environment rather than a `--project` flag.
