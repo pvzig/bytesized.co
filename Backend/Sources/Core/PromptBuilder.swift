@@ -8,6 +8,7 @@ public struct PromptBuilder {
         } else {
             localized = "anywhere in the world"
         }
-        return "random food item popular \(localized), in the style of Overcooked, transparent background"
+        return
+            "random food item popular \(localized), in the style of Overcooked, transparent background"
     }
 }

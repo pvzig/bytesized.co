@@ -70,7 +70,6 @@ struct BytesizedCafe {
 
     private static func cachedImageURL(for configuration: Config) -> URL? {
         guard
-            isReloadNavigation(),
             let sessionStorage,
             sessionStorage.getItem?(StorageKeys.pagePath.rawValue).string
                 == configuration.pageContext.pagePath,
@@ -115,23 +114,5 @@ struct BytesizedCafe {
 
     private static var sessionStorage: JSObject? {
         JSObject.global.sessionStorage.object
-    }
-
-    private static func isReloadNavigation() -> Bool {
-        guard let performance = JSObject.global.performance.object else {
-            return false
-        }
-
-        if let navigationEntry = performance.getEntriesByType?("navigation")[0].object,
-            navigationEntry["type"].string == "reload"
-        {
-            return true
-        }
-
-        if let navigationType = performance["navigation"].object?["type"].number {
-            return navigationType == 1
-        }
-
-        return false
     }
 }

@@ -1,4 +1,3 @@
-
 struct ImageGenResponse: Decodable {
     let data: [ImageData]
 

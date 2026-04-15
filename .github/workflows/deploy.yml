@@ -2,51 +2,112 @@ name: Build and Deploy
 
 on:
   push:
-    branches: [ master ]
-    
+    branches:
+      - main
+
+concurrency:
+  group: deploy-production
+  cancel-in-progress: true
+
 jobs:
-  build:
-    runs-on: macos-latest
-    steps:
-    - uses: actions/checkout@v4
-    - name: Build
-      run: swift run -c release bytesized
-    - uses: actions/upload-artifact@v4
-      with:
-        name: bytesized
-        path: Output/
-  deploy:
-    needs: build
+  deploy_backend:
+    name: Deploy Backend
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    env:
+      AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+      AWS_REGION: ${{ vars.AWS_REGION }}
+      AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+      GENERATED_IMAGES_BUCKET: ${{ vars.GENERATED_IMAGES_BUCKET }}
+      IMAGE_GEN_PREFIX: ${{ vars.IMAGE_GEN_PREFIX }}
+      OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+      OPENAI_IMAGE_MODEL: ${{ vars.OPENAI_IMAGE_MODEL }}
+      RAILWAY_PROJECT_ID: ${{ vars.RAILWAY_PROJECT_ID }}
+      RAILWAY_ENVIRONMENT_NAME: ${{ vars.RAILWAY_ENVIRONMENT_NAME }}
+      RAILWAY_RUNTIME_HOST: "0.0.0.0"
+      RAILWAY_RUNTIME_PORT: "8080"
+      RAILWAY_SERVICE_NAME: ${{ vars.RAILWAY_SERVICE_NAME }}
+      RAILWAY_TOKEN: ${{ secrets.RAILWAY_TOKEN }}
     steps:
-      - uses: actions/download-artifact@v4
+      - uses: actions/checkout@v4
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
         with:
-          name: bytesized
-          path: Output/
-      # Sync HTML content
-      - uses: jakejarvis/s3-sync-action@master
+          node-version: "22"
+
+      - name: Validate Railway configuration
+        run: |
+          set -euo pipefail
+
+          : "${AWS_ACCESS_KEY_ID:?AWS_ACCESS_KEY_ID is required}"
+          : "${AWS_REGION:?AWS_REGION is required}"
+          : "${AWS_SECRET_ACCESS_KEY:?AWS_SECRET_ACCESS_KEY is required}"
+          : "${GENERATED_IMAGES_BUCKET:?GENERATED_IMAGES_BUCKET is required}"
+          : "${IMAGE_GEN_PREFIX:?IMAGE_GEN_PREFIX is required}"
+          : "${OPENAI_API_KEY:?OPENAI_API_KEY is required}"
+          : "${OPENAI_IMAGE_MODEL:?OPENAI_IMAGE_MODEL is required}"
+          : "${RAILWAY_PROJECT_ID:?RAILWAY_PROJECT_ID is required}"
+          : "${RAILWAY_ENVIRONMENT_NAME:?RAILWAY_ENVIRONMENT_NAME is required}"
+          : "${RAILWAY_SERVICE_NAME:?RAILWAY_SERVICE_NAME is required}"
+          : "${RAILWAY_TOKEN:?RAILWAY_TOKEN is required}"
+
+      - name: Sync Railway backend variables
+        run: ./Scripts/sync-railway-backend-variables.sh
+
+      - name: Deploy backend to Railway
+        run: |
+          set -euo pipefail
+
+          npx -y @railway/cli up Backend \
+            --ci \
+            --path-as-root \
+            --project "${RAILWAY_PROJECT_ID}" \
+            --environment "${RAILWAY_ENVIRONMENT_NAME}" \
+            --service "${RAILWAY_SERVICE_NAME}" \
+            --message "GitHub Actions ${GITHUB_SHA}"
+
+  deploy_site:
+    name: Deploy Site
+    runs-on: macos-latest
+    needs: deploy_backend
+    env:
+      AWS_REGION: ${{ vars.AWS_REGION }}
+      BYTESIZED_CAFE_API_URL: ${{ vars.BYTESIZED_CAFE_API_URL }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up just
+        uses: extractions/setup-just@v3
+
+      - name: Validate site API URL
+        run: |
+          set -euo pipefail
+
+          : "${AWS_REGION:?AWS_REGION is required}"
+          : "${BYTESIZED_CAFE_API_URL:?BYTESIZED_CAFE_API_URL is required}"
+
+      - name: Set up SwiftWasm
+        uses: swiftwasm/setup-swiftwasm@v2
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
         with:
-          args: --acl public-read --follow-symlinks --exclude '*' --include 'posts/*' --include 'page/*' --include 'index.html' --content-type 'text/html'
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ vars.AWS_REGION }}
+
+      - name: Install Binaryen
+        run: brew install binaryen
+
+      - name: Build SwiftWASM app
+        run: just wasm
+
+      - name: Build site
+        run: just site-release
+
+      - name: Deploy site
         env:
           AWS_S3_BUCKET: ${{ secrets.AWS_S3_BUCKET }}
-          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          SOURCE_DIR: 'Output/'
-      # Sync resources
-      - uses: jakejarvis/s3-sync-action@master
-        with:
-          args: --acl public-read --follow-symlinks --include '*' --exclude 'posts/*' --exclude 'page/*' --exclude 'index.html'
-        env:
-          AWS_S3_BUCKET: ${{ secrets.AWS_S3_BUCKET }}
-          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          SOURCE_DIR: 'Output/'
-      # Invalidate CloudFront cache
-      - name: Invalidate CloudFront cache
-        uses: chetan/invalidate-cloudfront-action@v2
-        env:
-          DISTRIBUTION: ${{ secrets.CLOUDFRONT_DISTRIBUTION_ID }}
-          PATHS: '/index.html /page/* /feed.rss /css/styles.css'
-          AWS_REGION: 'us-east-1'
-          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        run: just site-deploy

@@ -1,37 +1,57 @@
 import Foundation
 
-public struct KeyFactory {
-    public static let generatedImagesPrefix = "generated/v2"
+public struct KeyFactory: Sendable {
+    public init() {}
 
-    private static let utcTimeZone = TimeZone(secondsFromGMT: 0) ?? .current
-    private static var utcCalendar: Calendar {
+    private let utcTimeZone = TimeZone(secondsFromGMT: 0) ?? .current
+
+    private var utcCalendar: Calendar {
         var calendar = Calendar(identifier: .gregorian)
         calendar.timeZone = utcTimeZone
         return calendar
     }
-    
-    private static let machineReadableDateStyle = Date.VerbatimFormatStyle(
-        format: "\(year: .defaultDigits)/\(month: .twoDigits)/\(day: .twoDigits)",
-        locale: Locale(identifier: "en_US_POSIX"),
-        timeZone: utcTimeZone,
-        calendar: utcCalendar
-    )
 
-    public static func publicURL(baseURL: String, key: String) -> String {
+    private var dateStyle: Date.VerbatimFormatStyle {
+        return Date.VerbatimFormatStyle(
+            format: "\(year: .defaultDigits)/\(month: .twoDigits)/\(day: .twoDigits)",
+            locale: Locale(identifier: "en_US_POSIX"),
+            timeZone: utcTimeZone,
+            calendar: utcCalendar
+        )
+    }
+
+    public func publicURL(baseURL: String, key: String) -> String {
         "\(baseURL.trimmingCharacters(in: CharacterSet(charactersIn: "/")))/\(key)"
     }
 
-    public static func generatedImageKey(date: Date = .now, countryName: String? = nil) -> String {
+    public func generatedImageKey(
+        prefix: String,
+        date: Date = .now,
+        countryName: String? = nil
+    ) -> String {
         let countrySuffix = countryKeySuffix(countryName: countryName).map { "-\($0)" } ?? ""
         return
-            "\(generatedImagePrefix(for: date))\(UUID().uuidString.lowercased())\(countrySuffix).png"
+            "\(generatedImagePrefix(prefix: prefix, for: date))\(UUID().uuidString.lowercased())\(countrySuffix).png"
     }
 
-    public static func generatedImagePrefix(for date: Date) -> String {
-        "\(generatedImagesPrefix)/\(date.formatted(machineReadableDateStyle))/"
+    public func pageImageKey(
+        prefix: String,
+        context: PageContext,
+        countryName: String? = nil
+    ) -> String {
+        let normalizedPagePath = normalizedPagePathComponents(for: context.pagePath)
+            .joined(separator: "/")
+        let countryComponent = countryKeySuffix(countryName: countryName) ?? "anywhere"
+
+        return
+            "\(trimmedPrefix(prefix))/page-cache/\(context.pageType.rawValue)/\(normalizedPagePath)-\(countryComponent).png"
     }
 
-    public static func countryKeySuffix(countryName: String?) -> String? {
+    public func generatedImagePrefix(prefix: String, for date: Date) -> String {
+        return "\(trimmedPrefix(prefix))/\(date.formatted(dateStyle))/"
+    }
+
+    public func countryKeySuffix(countryName: String?) -> String? {
         guard
             let countryName = countryName?.trimmingCharacters(in: .whitespacesAndNewlines),
             !countryName.isEmpty
@@ -56,5 +76,41 @@ public struct KeyFactory {
         let suffix = parts.joined(separator: "-")
 
         return suffix.isEmpty ? nil : suffix
+    }
+
+    private func trimmedPrefix(_ prefix: String) -> String {
+        prefix.trimmingCharacters(in: CharacterSet(charactersIn: "/"))
+    }
+
+    private func normalizedPagePathComponents(for pagePath: String) -> [String] {
+        let trimmedPagePath = pagePath.trimmingCharacters(in: CharacterSet(charactersIn: "/"))
+
+        guard !trimmedPagePath.isEmpty else {
+            return ["root"]
+        }
+
+        return trimmedPagePath.split(separator: "/").map { component in
+            keyPathComponent(from: String(component))
+        }
+    }
+
+    private func keyPathComponent(from value: String) -> String {
+        let normalizedValue =
+            value
+            .folding(
+                options: [.caseInsensitive, .diacriticInsensitive],
+                locale: .init(identifier: "en_US_POSIX")
+            )
+            .lowercased()
+        let parts = normalizedValue.split(
+            whereSeparator: { character in
+                character.unicodeScalars.allSatisfy { scalar in
+                    !CharacterSet.alphanumerics.contains(scalar)
+                }
+            }
+        )
+        let keyPathComponent = parts.joined(separator: "-")
+
+        return keyPathComponent.isEmpty ? "page" : keyPathComponent
     }
 }

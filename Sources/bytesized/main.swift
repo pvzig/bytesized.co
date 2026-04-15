@@ -72,7 +72,8 @@ _ = try await Bytesized().publishAsync(using: [
         at: Path("Resources/images"), to: Path("images"), includingFolder: false),
     .copyFile(at: Path("Resources/css/normalized.css"), to: Path("css")),
     .copyFile(at: Path("Resources/css/styles.css"), to: Path("css")),
-    .copyResources(at: Path("Resources/css/pure"), to: Path("css/pure"), includingFolder: false),
+    .copyFile(at: Path("Resources/css/pure/pure-min.css"), to: Path("css/pure")),
+    .copyFile(at: Path("Resources/css/pure/grids-responsive-min.css"), to: Path("css/pure")),
     .copyResources(at: Path("Resources/fonts"), to: Path("fonts"), includingFolder: false),
     .addMarkdownFiles(customContentParser: parseBytesizedContent),
     .step(named: "Name Index") { context in

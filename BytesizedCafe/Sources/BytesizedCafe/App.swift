@@ -4,7 +4,9 @@ import JavaScriptEventLoop
 @main
 struct App {
     static func main() {
-        JavaScriptEventLoop.installGlobalExecutor()
-        BytesizedCafe.start()
+        #if arch(wasm32)
+            JavaScriptEventLoop.installGlobalExecutor()
+            BytesizedCafe.start()
+        #endif
     }
 }

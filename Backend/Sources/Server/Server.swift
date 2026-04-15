@@ -7,11 +7,13 @@ extension GenerateResponse: ResponseEncodable {}
 struct Server {
     static func main() async throws {
         let environment = try Environment.load()
-        let imageStore = try await S3ImageStore(bucketName: environment.bucketName)
+        let imageStore = try await S3ImageStore(bucketName: environment.generatedImagesBucket)
         let countryLookupClient = CountryLookupClient()
         let openAiClient = OpenAiClient(environment: environment)
+        let keyFactory = KeyFactory()
         let imageGenService = ImageGenService(
             environment: environment,
+            keyFactory: keyFactory,
             s3ImageStore: imageStore,
             openAiClient: openAiClient
         )
@@ -39,8 +41,16 @@ struct Server {
                 as: GenerateRequest.self,
                 context: context
             )
-            let countryName = try await countryLookupClient.countryName(for: request.clientIPAddress() ?? "142.251.211.110") ?? "US"
-            return try await imageGenService.handle(request: generateRequest, countryName: countryName)
+            let countryName: String?
+            if let clientIPAddress = request.clientIPAddress() {
+                countryName = try await countryLookupClient.countryName(
+                    for: clientIPAddress
+                )
+            } else {
+                countryName = nil
+            }
+            return try await imageGenService.handle(
+                request: generateRequest, countryName: countryName)
         }
 
         let app = Application(

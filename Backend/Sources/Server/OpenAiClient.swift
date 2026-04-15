@@ -4,14 +4,16 @@ import Foundation
 import NIOCore
 
 struct OpenAiClient {
+    private let generationTimeout: TimeAmount = .seconds(120)
     private let environment: Environment
     private let httpClient: HTTPClient
-    private let jsonDecoder: JSONDecoder = .init()
+    private let jsonEncoder = JSONEncoder()
+    private let jsonDecoder = JSONDecoder()
     private let generationsURL = "https://api.openai.com/v1/images/generations"
 
-    
-    init(environment: Environment,
-         httpClient: HTTPClient = .shared
+    init(
+        environment: Environment,
+        httpClient: HTTPClient = .shared
     ) {
         self.environment = environment
         self.httpClient = httpClient
@@ -27,13 +29,13 @@ struct OpenAiClient {
             size: "1024x1024"
         )
 
-        let requestBody = try JSONEncoder().encode(payload)
+        let requestBody = try jsonEncoder.encode(payload)
         var request = HTTPClientRequest(url: generationsURL)
         request.method = .POST
         request.headers.add(name: "Authorization", value: "Bearer \(environment.openAIAPIKey)")
         request.headers.add(name: "Content-Type", value: "application/json")
         request.body = .bytes(ByteBuffer(bytes: requestBody))
-        let response = try await httpClient.execute(request, timeout: .seconds(30))
+        let response = try await httpClient.execute(request, timeout: generationTimeout)
         let body = try await response.body.collect(upTo: 10 * 1024 * 1024)
         let data = Data(body.readableBytesView)
 

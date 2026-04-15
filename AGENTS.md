@@ -2,19 +2,26 @@
 
 Instructions for coding agents working on this repo.
 ## General
-- When adding new dependencies, check Gtihub to make sure that you’re adding them at the latest release.
+- When adding new dependencies, check Github to make sure that you’re adding them at the latest release.
 - When naming files/targets, prefer non-project namespaced names (eg Server vs BytesizedServer)
 ## Validating Changes
 - Run the swift-format skill
-- Run `./Scripts/validate-deployment-config.sh` when changing `Backend/terraform` or `.github/workflows`
+- Run `./Scripts/validate-deployment-config.sh` when changing `Backend/Dockerfile`, `.github/workflows`, or deployment-related scripts
 - Keep `SPEC.md` up-to-date when making changes.
 - You don't need to run swift-format and swift-test to validate changes to markdown files.
 
 ## Build & Run Commands
-- Build site: `swift run bytesized`
-- Build with release config: `swift run -c release bytesized`
-- Run locally: `swift run -c release bytesized`
-- Deploy to S3: `swift run -c release bytesized --deploy`
+- List available recipes: `just help`
+- Build the WebAssembly app: `just wasm`
+- Build site: `just site`
+- Build with release config: `just site-release`
+- Build site against a configured local cafe API: `just site-local`
+- Run local stack: `just local`
+- Run backend only: `just backend`
+- Validate deployment config: `just validate-deployment`
+- Deploy site to S3: `just site-deploy`
+
+`just` loads environment variables from `.ENV` automatically.
 
 ## Project Structure
 - `Sources/bytesized/`: Swift source files

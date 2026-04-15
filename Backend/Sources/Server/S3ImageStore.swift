@@ -24,12 +24,35 @@ struct S3ImageStore {
         _ = try await client.putObject(input: input)
     }
 
+    func imageExists(key: String) async throws -> Bool {
+        do {
+            _ = try await client.headObject(
+                input: HeadObjectInput(
+                    bucket: bucketName,
+                    key: key
+                )
+            )
+            return true
+        } catch is AWSS3.NotFound {
+            return false
+        }
+    }
+
+    func copyImage(from sourceKey: String, to destinationKey: String) async throws {
+        let input = CopyObjectInput(
+            bucket: bucketName,
+            copySource: "\(bucketName)/\(sourceKey)",
+            key: destinationKey
+        )
+
+        _ = try await client.copyObject(input: input)
+    }
+
     func randomGeneratedImageKey(
         datePrefix: String,
         countrySuffix: String?,
     ) async throws -> String? {
         var randomNumberGenerator = SystemRandomNumberGenerator()
-        let preferredKeySuffix = countrySuffix.map { "-\($0).png" }
         var selectedPreferredKey: String?
         var seenPreferredKeyCount = 0
         var selectedKey: String?

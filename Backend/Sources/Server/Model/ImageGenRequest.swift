@@ -1,4 +1,3 @@
-
 struct ImageGenRequest: Encodable {
     let background: String
     let model: String

@@ -13,28 +13,22 @@ extension Request {
 
 struct ClientIPAddressResolver {
     static func resolve(xForwardedFor: String?, xRealIP: String?) -> String? {
-        if let clientIPAddress = cloudRunClientIPAddress(from: xForwardedFor) {
+        // Railway exposes the originating client address via X-Real-IP.
+        if let clientIPAddress = normalizedIPAddress(from: xRealIP) {
             return clientIPAddress
         }
 
-        if let clientIPAddress = normalizedIPAddress(from: xRealIP) {
+        if let clientIPAddress = forwardedClientIPAddress(from: xForwardedFor) {
             return clientIPAddress
         }
 
         return nil
     }
 
-    private static func cloudRunClientIPAddress(from xForwardedFor: String?) -> String? {
+    private static func forwardedClientIPAddress(from xForwardedFor: String?) -> String? {
         let forwardedIPs = normalizedIPAddresses(from: xForwardedFor)
         guard !forwardedIPs.isEmpty else {
             return nil
-        }
-
-        // Google Cloud appends "<client-ip>,<load-balancer-ip>" to X-Forwarded-For.
-        // Any values before those may have been supplied by the client, so prefer the
-        // second-to-last IP when present instead of trusting the first entry.
-        if forwardedIPs.count >= 2 {
-            return forwardedIPs[forwardedIPs.count - 2]
         }
 
         return forwardedIPs[0]
