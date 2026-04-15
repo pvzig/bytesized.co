@@ -1,7 +1,6 @@
-
+import CommonMark
 import Foundation
 import Publish
-import CommonMark
 import Splash
 
 extension Item {
@@ -32,7 +31,7 @@ func applySyntaxHighlighting(to html: String) -> String {
             pattern: pattern,
             options: [.dotMatchesLineSeparators]
         )
-        
+
         // Create a mutable copy to perform in-place replacements.
         let mutableHTML = NSMutableString(string: html)
         let matches = regex.matches(
@@ -40,33 +39,34 @@ func applySyntaxHighlighting(to html: String) -> String {
             options: [],
             range: NSRange(location: 0, length: html.utf16.count)
         )
-        
+
         // Initialize your syntax highlighter.
         let highlighter = SyntaxHighlighter(format: HTMLOutputFormat(classPrefix: "splash-"))
-        
+
         // Process matches in reverse order so earlier ranges remain valid.
         for match in matches.reversed() {
             // Group 1: language attribute (if any); Group 2: code content.
             let languageRange = match.range(at: 1)
             let codeRange = match.range(at: 2)
             guard codeRange.location != NSNotFound,
-                  let swiftCodeRange = Range(codeRange, in: html) else {
+                let swiftCodeRange = Range(codeRange, in: html)
+            else {
                 continue
             }
-            
+
             let codeContent = String(html[swiftCodeRange]).decodedHTMLEntities
             // Only highlight if the language is explicitly Swift.
             let isSwiftBlock = languageRange.location != NSNotFound
             let processedCode = isSwiftBlock ? highlighter.highlight(codeContent) : codeContent
-            
+
             // Recreate the code block with proper class if it was a Swift block.
             let classAttribute = isSwiftBlock ? " class=\"language-swift\"" : ""
             let replacementHTML = "<pre><code\(classAttribute)>\(processedCode)</code></pre>"
-            
+
             // Replace the entire match in the mutable HTML.
             mutableHTML.replaceCharacters(in: match.range, with: replacementHTML)
         }
-        
+
         return mutableHTML as String
     } catch {
         print("Error applying syntax highlighting: \(error.localizedDescription)")
@@ -81,11 +81,10 @@ extension String {
             "&lt;": "<",
             "&gt;": ">",
             "&quot;": "\"",
-            "&amp;": "&"
+            "&amp;": "&",
         ]
         return entities.reduce(self) { result, pair in
             result.replacingOccurrences(of: pair.key, with: pair.value)
         }
     }
 }
-

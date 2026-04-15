@@ -1,8 +1,15 @@
 .DS_Store
+.ENV
 Output/*
+/bytesized-cafe-app/
 /fonts/*
 /.swiftpm/*
 /.publish
 /.build
+**/.build
 .vscode/settings.json
 /CLAUDE.md
+.railway/
+.swiftpm
+/Package.resolved
+/BytesizedCafe/Package.resolved

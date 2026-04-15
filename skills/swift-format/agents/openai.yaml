@@ -1,0 +1,4 @@
+interface:
+  display_name: "Swift Format"
+  short_description: "Run swift-format recursively in place"
+  default_prompt: "Run swift-format on this Swift project"
