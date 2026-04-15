@@ -233,6 +233,7 @@ The implementation is considered complete when:
 - Secret values are synchronized with Railway through `railway variable set KEY --stdin` so they are not exposed on the command line during GitHub Actions runs.
 - Inline shell in the deployment and validation workflows is minimized in favor of reusable repo-root `just` recipes so the same deployment task entry points can be reused locally and in CI.
 - The site deploy job continues to build the SwiftWASM app and sync `Output/` to S3 using a fixed `BYTESIZED_CAFE_API_URL`.
+- After the S3 sync completes, the site deploy job invalidates the production CloudFront distribution with `CLOUDFRONT_DISTRIBUTION_ID` for `/index.html`, `/page/*`, and `/feed.rss`.
 - The site deploy sync no longer owns generated images, because they live in a separate generated-images bucket from the static site bucket.
 
 ## 11. Local Development
