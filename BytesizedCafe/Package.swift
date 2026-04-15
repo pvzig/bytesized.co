@@ -12,7 +12,7 @@ let package = Package(
     ],
     dependencies: [
         .package(url: "https://github.com/swiftwasm/JavaScriptKit.git", from: "0.46.5"),
-        .package(url: "https://github.com/pvzig/parcel", from: "0.1.0"),
+        .package(url: "https://github.com/pvzig/parcel", from: "0.2.0"),
     ],
     targets: [
         .executableTarget(

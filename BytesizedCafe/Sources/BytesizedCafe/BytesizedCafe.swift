@@ -2,7 +2,6 @@ import Foundation
 import JavaScriptKit
 import Parcel
 
-@MainActor
 struct BytesizedCafe {
     enum ObjectKeys: String {
         case started
@@ -23,7 +22,7 @@ struct BytesizedCafe {
         #endif
     }
 
-    static func start() async {
+    static func start() {
         guard
             let root = mount(),
             let configuration = Config(root: root),
@@ -41,13 +40,15 @@ struct BytesizedCafe {
 
         updateState(.preparing, root: root)
 
-        do {
-            let generatedImage = try await requestImage(for: configuration)
-            cacheImageURL(generatedImage.url, for: configuration)
-            applyImage(generatedImage.url, root: root)
-            updateState(.ready, root: root)
-        } catch {
-            updateState(.ordered, root: root)
+        Task {
+            do {
+                let generatedImage = try await requestImage(for: configuration)
+                cacheImageURL(generatedImage.url, for: configuration)
+                applyImage(generatedImage.url, root: root)
+                updateState(.ready, root: root)
+            } catch {
+                updateState(.ordered, root: root)
+            }
         }
     }
 
@@ -58,11 +59,13 @@ struct BytesizedCafe {
     private static func requestImage(for configuration: Config) async throws
         -> GenerateImageResponse
     {
-        try await client.post(
-            GenerateImageRequest(context: configuration.pageContext),
-            to: configuration.apiURL,
-            expecting: GenerateImageResponse.self
-        )
+        try await client.send(
+            .post(
+                configuration.apiURL,
+                body: GenerateImageRequest(context: configuration.pageContext)
+            ),
+            as: GenerateImageResponse.self
+        ).value
     }
 
     private static func cachedImageURL(for configuration: Config) -> URL? {
