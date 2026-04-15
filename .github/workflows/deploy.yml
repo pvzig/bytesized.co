@@ -89,7 +89,7 @@ jobs:
           : "${BYTESIZED_CAFE_API_URL:?BYTESIZED_CAFE_API_URL is required}"
 
       - name: Set up Swift
-        uses: swift-actions/setup-swift@v2.4.0
+        uses: swift-actions/setup-swift@v3
         with:
           swift-version: "6.2.3"
 
