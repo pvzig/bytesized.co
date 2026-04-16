@@ -1,4 +1,4 @@
-# Spec: SwiftWASM + Hummingbird + S3 Image Delivery
+# Spec: bytesized.co - OpenAI Image Generation using SwiftWASM + Hummingbird
 
 ## 1. Objective
 Implement a web app where:
@@ -39,16 +39,11 @@ Implement a web app where:
 - The `BytesizedCafe` SwiftWASM package is built into the repo-root `bytesized-cafe-app/` directory.
 - The site generator publishes that directory at `/bytesized-cafe-app/`.
 - Published asset paths must preserve the generated nested package layout, including `/bytesized-cafe-app/platforms/browser.js`.
-- The `BytesizedCafe` package declares macOS 13 or newer for host-side package resolution because its Parcel dependency requires that minimum deployment target; the browser app itself is still built through the installed WebAssembly Swift SDK.
 
 ## 3. S3 Design
 
 ### 3.1 Canonical Public Origin
-The backend derives the public image origin from `GENERATED_IMAGES_BUCKET` and `AWS_REGION` as:
-
-`https://<generated-images-bucket>.s3.<region>.amazonaws.com`
-
-Do not use the S3 website endpoint for generated image URLs.
+The backend derives the public image origin from `GENERATED_IMAGES_BUCKET` and `AWS_REGION` as: `https://<generated-images-bucket>.s3.<region>.amazonaws.com`
 
 ### 3.2 Bucket Access Model
 - Keep S3 Object Ownership set to `Bucket owner enforced`.
@@ -151,7 +146,6 @@ Rules:
   - Instruct the model to prefer specific, visually distinct local dishes over generic national defaults, and to avoid repeatedly defaulting to globally common fast food unless it is genuinely the random choice.
   - Fall back to the same prompt structure scoped to somewhere in the world when the client IP or country cannot be resolved.
   - Call the OpenAI image generation API with model `gpt-image-1.5`.
-  - Allow up to 120 seconds for the OpenAI image generation request to complete before failing the server request.
   - Upload the PNG to the generated image key used for the dated generation pool.
   - Upload the same PNG to the stable page-cache key.
   - Return the page-cache `url`.
@@ -163,13 +157,11 @@ Rules:
 
 ## 7. Frontend Behavior
 - Show a loading placeholder immediately.
-- Install the JavaScript event loop executor before spawning async startup work.
 - Read page context from the mount element.
 - If session storage contains a URL for the same page path and page type, reuse that URL and skip the API call.
 - Otherwise, start a single `POST` request to the configured API URL.
 - When the request succeeds, swap the placeholder image source to the returned `url`.
 - Persist the returned image URL in session storage keyed to the current page so the next same-session visit of that page can reuse it.
-- Do not poll.
 
 ## 8. Environment Variables
 
@@ -184,11 +176,7 @@ Rules:
 - `HOST`
 - `PORT`
 
-The AWS values may also be supplied through another AWS SDK credential-chain source, but Railway deployment should provide explicit environment variables or equivalent secret-backed injection.
-The backend should load these values through one shared environment model used by both the generation service configuration and server bind configuration.
-The backend environment model should read process environment values through `apple/swift-configuration`.
 Local repo tooling may provide `BACKEND_HOST` and `BACKEND_PORT` as aliases for the backend runtime `HOST` and `PORT` values.
-Backend request validation, environment validation, and terminal upstream failures should use one shared `CoreError` enum in the `Core` module.
 
 ### 8.2 Site Build
 - `BYTESIZED_CAFE_API_URL`
@@ -207,41 +195,29 @@ The implementation is considered complete when:
 - Fresh generations include a country slug suffix in the image key when the request country is known.
 - When the daily budget is exhausted, fallback selection prefers existing images whose keys match the current request country and otherwise falls back to any existing image.
 - The backend persists deterministic per-page cache keys separately from the dated generation pool.
-- No DynamoDB, SQS, DLQ, or status-object flow is required by the active path.
 
 ## 10. Deployment
 
 ### 10.1 Container Build
 - The backend container image is built from `Backend/` using the checked-in `Backend/Dockerfile`.
-- The backend Docker build context includes `Tests/` alongside `Package.swift`, `Package.resolved`, and `Sources/` so SwiftPM can validate the package graph while building the `Server` executable.
 - The checked-in `Backend/railway.toml` codifies the Railway deploy settings that should live in source control, currently the Dockerfile builder and `/health` healthcheck.
-- The checked-in `Scripts/sync-github-actions-config.sh` script codifies how overlapping GitHub Actions repository variables and secrets can be synchronized from the local `.ENV` file.
-- The checked-in `Scripts/sync-railway-backend-variables.sh` script codifies how GitHub Actions synchronizes backend runtime variables into Railway before deployment, requiring `RAILWAY_PROJECT_ID` in the environment because `railway variable set` resolves project context from the environment rather than a `--project` flag.
 - The deployable product is the `Server` executable.
 - Railway builds and runs the production image from GitHub pushes, targeting the backend service with `railway up Backend --ci --path-as-root`.
-- The runtime base image remains `swift:6.2.4-bookworm-slim`.
 - Deployment config changes are validated with `just validate-deployment`, which delegates to `./Scripts/validate-deployment-config.sh` to build the Docker image and validate workflow YAML parsing.
 
 ### 10.2 Railway Infrastructure
 - Railway hosts the public backend service, injects runtime environment variables, and exposes a healthchecked HTTPS endpoint for the `Server` container.
-- The backend Railway service can be created as an empty service because GitHub Actions uploads `Backend/` directly during deployment.
 - The Railway service should define a stable custom domain so the static site can build against a fixed `BYTESIZED_CAFE_API_URL`.
 - The GitHub Actions workflow under `.github/workflows/deploy.yml` is the production deployment path and is intended to run on pushes to the primary deployment branch.
 - The backend deploy job authenticates with a Railway project token, synchronizes the backend runtime variables into Railway, and deploys the `Backend/` directory directly to the configured Railway project, environment, and service.
 - Railway service-level GitHub autodeploy should be disabled when the GitHub Actions workflow is the active deployment path, to avoid duplicate backend deployments from the same push.
 - GitHub Actions repository variables and secrets are the source of truth for the backend runtime variables `GENERATED_IMAGES_BUCKET`, `OPENAI_API_KEY`, `OPENAI_IMAGE_MODEL`, `IMAGE_GEN_PREFIX`, `AWS_REGION`, `AWS_ACCESS_KEY_ID`, and `AWS_SECRET_ACCESS_KEY`.
-- The overlapping GitHub Actions repository variables and secrets can be seeded from the local `.ENV` file with `Scripts/sync-github-actions-config.sh`, but deployment-only values such as `RAILWAY_PROJECT_ID`, `RAILWAY_ENVIRONMENT_NAME`, `RAILWAY_SERVICE_NAME`, `RAILWAY_TOKEN`, `BYTESIZED_CAFE_API_URL`, and `CLOUDFRONT_DISTRIBUTION_ID` remain manually managed because they do not belong in the local development env file.
 - The backend deploy workflow sets `HOST=0.0.0.0` and `PORT=8080` in Railway by default, unless the deploy job overrides `RAILWAY_RUNTIME_HOST` or `RAILWAY_RUNTIME_PORT`.
-- Secret values are synchronized with Railway through `railway variable set KEY --stdin` so they are not exposed on the command line during GitHub Actions runs.
-- Inline shell in the deployment and validation workflows is minimized in favor of reusable repo-root `just` recipes so the same deployment task entry points can be reused locally and in CI.
-- The site deploy job installs Swift 6.2.3 with `swift-actions/setup-swift@v3`, which resolves toolchains through Swiftly, installs the matching SwiftWasm SDK via `swiftwasm/setup-swiftwasm@v2.1` for `wasm32-unknown-wasip1`, and passes the resulting `swift-sdk-id` into `just wasm` so the deploy does not depend on the runner image's preinstalled Swift toolchain or SDK ordering.
 - The site deploy job continues to sync `Output/` to S3 using a fixed `BYTESIZED_CAFE_API_URL`.
 - Paginated archive links use the literal deployed object paths under `/page/<n>/index.html` because the production S3 and CloudFront setup does not rewrite clean directory URLs to nested `index.html` objects.
 - After the S3 sync completes, the site deploy job invalidates the production CloudFront distribution with `CLOUDFRONT_DISTRIBUTION_ID` for `/`, `/index.html`, `/page/*`, `/posts/*`, `/feed.rss`, `/bytesized-cafe-app/*`, `/css/*`, `/images/*`, and `/fonts/*`.
-- The site deploy sync no longer owns generated images, because they live in a separate generated-images bucket from the static site bucket.
 
 ## 11. Local Development
 - A repo-root `justfile` provides the primary entry point for common local tasks such as `just wasm`, `just site`, `just site-local`, `just backend`, and `just local`, along with deployment-oriented recipes like `just site-release`, `just site-deploy`, and `just validate-deployment`.
 - `Scripts/run-local.sh` provides a one-command local stack for development and opens the local site in the default browser after the backend and static site server are ready.
 - The script rebuilds the `BytesizedCafe` SwiftWASM bundle, regenerates the site with `BYTESIZED_CAFE_API_URL` pointed at a localhost backend, prebuilds the backend to avoid counting SwiftPM compilation against the startup timeout, starts the Hummingbird server, and serves `Output/` over a local static HTTP server.
-- The `justfile` and local-run script read a repo-root `.ENV` file by default when one exists, while still allowing direct shell environment configuration and host or port overrides for the site and backend.
