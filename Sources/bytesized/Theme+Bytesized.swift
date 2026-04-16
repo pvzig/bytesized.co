@@ -130,6 +130,10 @@ extension PublishingContext {
         sections.flatMap { $0.items }
     }
 
+    func archivePagePath(for page: Int) -> String {
+        page == 0 ? "/" : "/page/\(page)/index.html"
+    }
+
     func pageContent<T: Website>(for page: Int, items: [Item<T>]) -> Content {
         let body = HTML(
             .body(
@@ -140,7 +144,7 @@ extension PublishingContext {
                         .class("pure-u-1-1 pure-u-md-5-6 pure-u-lg-1-2"),
                         .header(
                             for: self,
-                            pagePath: "/page/\(page)",
+                            pagePath: archivePagePath(for: page),
                             pageType: .archive
                         ),
                         .itemList(for: items),
@@ -224,8 +228,8 @@ extension Node where Context == HTML.BodyContext {
 
         let nextPage = currentPage + 1
         let previousPage = currentPage - 1
-        let previousLink = previousPage == 0 ? "/" : "/page/\(previousPage)"
-        let nextLink = "/page/\(nextPage)"
+        let previousLink = context.archivePagePath(for: previousPage)
+        let nextLink = context.archivePagePath(for: nextPage)
         let isNext = context.allItems.count > nextPage * 5
         let isPrevious = currentPage != 0
 

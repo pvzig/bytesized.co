@@ -236,7 +236,8 @@ The implementation is considered complete when:
 - Inline shell in the deployment and validation workflows is minimized in favor of reusable repo-root `just` recipes so the same deployment task entry points can be reused locally and in CI.
 - The site deploy job installs Swift 6.2.3 with `swift-actions/setup-swift@v3`, which resolves toolchains through Swiftly, installs the matching SwiftWasm SDK via `swiftwasm/setup-swiftwasm@v2.1` for `wasm32-unknown-wasip1`, and passes the resulting `swift-sdk-id` into `just wasm` so the deploy does not depend on the runner image's preinstalled Swift toolchain or SDK ordering.
 - The site deploy job continues to sync `Output/` to S3 using a fixed `BYTESIZED_CAFE_API_URL`.
-- After the S3 sync completes, the site deploy job invalidates the production CloudFront distribution with `CLOUDFRONT_DISTRIBUTION_ID` for `/index.html`, `/page/*`, and `/feed.rss`.
+- Paginated archive links use the literal deployed object paths under `/page/<n>/index.html` because the production S3 and CloudFront setup does not rewrite clean directory URLs to nested `index.html` objects.
+- After the S3 sync completes, the site deploy job invalidates the production CloudFront distribution with `CLOUDFRONT_DISTRIBUTION_ID` for `/`, `/index.html`, `/page/*`, `/posts/*`, `/feed.rss`, `/bytesized-cafe-app/*`, `/css/*`, `/images/*`, and `/fonts/*`.
 - The site deploy sync no longer owns generated images, because they live in a separate generated-images bucket from the static site bucket.
 
 ## 11. Local Development
