@@ -91,13 +91,13 @@ jobs:
       - name: Set up Swift
         uses: swift-actions/setup-swift@v3
         with:
-          swift-version: "6.2.3"
+          swift-version: "6.3.0"
 
       - name: Set up SwiftWasm
         id: swiftwasm
         uses: swiftwasm/setup-swiftwasm@v2.1
         with:
-          tag: swift-6.2.3-RELEASE
+          tag: swift-6.3-RELEASE
           target: wasm32-unknown-wasip1
 
       - name: Configure AWS credentials

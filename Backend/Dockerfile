@@ -1,4 +1,4 @@
-FROM swift:6.2.4-bookworm AS build
+FROM swift:6.3.0-bookworm AS build
 
 WORKDIR /app
 
@@ -12,7 +12,7 @@ COPY Tests ./Tests
 
 RUN swift build -c release --product Server
 
-FROM swift:6.2.4-bookworm-slim AS runtime
+FROM swift:6.3.0-bookworm-slim AS runtime
 
 WORKDIR /app
 

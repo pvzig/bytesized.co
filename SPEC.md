@@ -200,6 +200,7 @@ The implementation is considered complete when:
 
 ### 10.1 Container Build
 - The backend container image is built from `Backend/` using the checked-in `Backend/Dockerfile`.
+- The backend container build and runtime stages pin the official `swift:6.3.0-bookworm` and `swift:6.3.0-bookworm-slim` images.
 - The checked-in `Backend/railway.toml` codifies the Railway deploy settings that should live in source control, currently the Dockerfile builder and `/health` healthcheck.
 - The deployable product is the `Server` executable.
 - Railway builds and runs the production image from GitHub pushes, targeting the backend service with `railway up Backend --ci --path-as-root`.
@@ -219,5 +220,6 @@ The implementation is considered complete when:
 
 ## 11. Local Development
 - A repo-root `justfile` provides the primary entry point for common local tasks such as `just wasm`, `just site`, `just site-local`, `just backend`, and `just local`, along with deployment-oriented recipes like `just site-release`, `just site-deploy`, and `just validate-deployment`.
+- The repo's Swift package manifests target Swift tools version `6.3`, the macOS GitHub Actions job installs Swift `6.3.0`, and the SwiftWasm site build uses the compatible `swift-6.3-RELEASE` SDK tag.
 - `Scripts/run-local.sh` provides a one-command local stack for development and opens the local site in the default browser after the backend and static site server are ready.
 - The script rebuilds the `BytesizedCafe` SwiftWASM bundle, regenerates the site with `BYTESIZED_CAFE_API_URL` pointed at a localhost backend, prebuilds the backend to avoid counting SwiftPM compilation against the startup timeout, starts the Hummingbird server, and serves `Output/` over a local static HTTP server.
