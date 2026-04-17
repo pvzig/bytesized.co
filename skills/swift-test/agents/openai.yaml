@@ -1,4 +1,0 @@
-interface:
-  display_name: "Swift Test"
-  short_description: "Run swift test with parallel execution"
-  default_prompt: "Run Swift package tests in parallel"
