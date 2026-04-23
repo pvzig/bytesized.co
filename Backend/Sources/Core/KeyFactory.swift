@@ -36,6 +36,7 @@ public struct KeyFactory: Sendable {
 
     public func pageImageKey(
         prefix: String,
+        date: Date = .now,
         context: PageContext,
         countryName: String? = nil
     ) -> String {
@@ -44,7 +45,7 @@ public struct KeyFactory: Sendable {
         let countryComponent = countryKeySuffix(countryName: countryName) ?? "anywhere"
 
         return
-            "\(trimmedPrefix(prefix))/page-cache/\(context.pageType.rawValue)/\(normalizedPagePath)-\(countryComponent).png"
+            "\(trimmedPrefix(prefix))/page-cache/\(date.formatted(dateStyle))/\(context.pageType.rawValue)/\(normalizedPagePath)-\(countryComponent).png"
     }
 
     public func generatedImagePrefix(prefix: String, for date: Date) -> String {

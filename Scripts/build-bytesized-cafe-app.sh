@@ -9,9 +9,17 @@ PACKAGE_OUTPUT_DIR="${BYTESIZED_CAFE_DIR}/.build/plugins/PackageToJS/outputs/Pac
 PRODUCT_NAME="BytesizedCafe"
 SDK_LIST="$(swift sdk list)"
 SWIFT_WASM_SDK_ID="${SWIFT_WASM_SDK_ID:-${SWIFT_SDK_ID:-}}"
+SWIFT_VERSION="$(swift --version | sed -n '1s/.*Swift version \([0-9][0-9.]*\).*/\1/p')"
+PREFERRED_SWIFT_WASM_SDK_ID=""
+
+if [[ -n "${SWIFT_VERSION}" ]]; then
+    PREFERRED_SWIFT_WASM_SDK_ID="swift-${SWIFT_VERSION}-RELEASE_wasm"
+fi
 
 if [[ -z "${SWIFT_WASM_SDK_ID}" ]]; then
-    if grep -Fxq "wasm32-unknown-wasi" <<< "${SDK_LIST}"; then
+    if [[ -n "${PREFERRED_SWIFT_WASM_SDK_ID}" ]] && grep -Fxq "${PREFERRED_SWIFT_WASM_SDK_ID}" <<< "${SDK_LIST}"; then
+        SWIFT_WASM_SDK_ID="${PREFERRED_SWIFT_WASM_SDK_ID}"
+    elif grep -Fxq "wasm32-unknown-wasi" <<< "${SDK_LIST}"; then
         SWIFT_WASM_SDK_ID="wasm32-unknown-wasi"
     else
         SWIFT_WASM_SDK_ID="$(grep 'wasm' <<< "${SDK_LIST}" | grep -v 'embedded' | head -n 1 || true)"

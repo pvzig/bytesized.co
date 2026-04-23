@@ -9,6 +9,7 @@ struct BytesizedCafe {
     }
 
     enum StorageKeys: String {
+        case cacheDate = "bytesized-cafe-cache-date"
         case imageURL = "bytesized-cafe-image-url"
         case pagePath = "bytesized-cafe-page-path"
         case pageType = "bytesized-cafe-page-type"
@@ -71,6 +72,8 @@ struct BytesizedCafe {
     private static func cachedImageURL(for configuration: Config) -> URL? {
         guard
             let sessionStorage,
+            sessionStorage.getItem?(StorageKeys.cacheDate.rawValue).string
+                == currentUTCDayKey(),
             sessionStorage.getItem?(StorageKeys.pagePath.rawValue).string
                 == configuration.pageContext.pagePath,
             sessionStorage.getItem?(StorageKeys.pageType.rawValue).string
@@ -88,6 +91,7 @@ struct BytesizedCafe {
             return
         }
 
+        _ = sessionStorage.setItem?(StorageKeys.cacheDate.rawValue, currentUTCDayKey())
         _ = sessionStorage.setItem?(
             StorageKeys.pagePath.rawValue, configuration.pageContext.pagePath)
         _ = sessionStorage.setItem?(
@@ -105,6 +109,10 @@ struct BytesizedCafe {
         image["src"] = JSValue.string(url.absoluteString)
         image["alt"] = JSValue.string(
             "👨🏻‍🍳🍲😋")
+    }
+
+    private static func currentUTCDayKey() -> String {
+        String(JSDate().toISOString().prefix(10))
     }
 
     private static func updateState(_ state: PreparationState, root: JSObject) {

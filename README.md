@@ -77,8 +77,8 @@ AWS_ACCESS_KEY_ID=<key-id> \
 AWS_SECRET_ACCESS_KEY=<secret> \
 swift run Server
 ```
-Image generation is capped at 15 images per UTC day. The backend stores a stable per-page image key so repeat requests for the same page reuse the existing image instead of generating again. When the daily budget is exhausted for a first-time page request, the server assigns that page a random previously generated image.
-Freshly generated image keys are still partitioned by UTC date under `IMAGE_GEN_PREFIX/YYYY/MM/DD/`, and the stable page cache lives under `IMAGE_GEN_PREFIX/page-cache/`.
+Image generation is capped at 15 images per UTC day. The backend stores a daily per-page image key so repeat requests for the same page on the same UTC day reuse the existing image instead of generating again. When the daily budget is exhausted for a first-time page request, the server assigns that page a random previously generated image.
+Freshly generated image keys are partitioned by UTC date under `IMAGE_GEN_PREFIX/YYYY/MM/DD/`, and daily page cache keys live under `IMAGE_GEN_PREFIX/page-cache/YYYY/MM/DD/`.
 
 Point the site generator at the backend API when building the HTML:
 

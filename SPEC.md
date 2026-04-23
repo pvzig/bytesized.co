@@ -4,8 +4,9 @@
 Implement a web app where:
 - The page loads in the browser as a SwiftWASM app.
 - The app automatically requests an image on the home page, article pages, and paginated archive pages.
-- A same-session revisit of the same page reuses that page's last returned image from client-side session storage when available.
-- The backend persists a stable per-page image key so repeat requests for the same page and request country reuse the existing image instead of generating a new one.
+- A same-session revisit of the same page on the same UTC day reuses that page's last returned image from client-side session storage when available.
+- The backend persists a daily per-page image key so repeat requests for the same page, UTC day, and request country reuse the existing image instead of generating a new one.
+- Returning on the next UTC day uses a new page-cache key, causing the backend to generate or assign a new image for that page.
 - When the daily generation budget is exhausted, the backend returns a random previously generated image instead of requesting a new one.
 - The backend waits for image generation to finish before replying.
 - The final image is rendered from a public S3 HTTPS URL.
@@ -24,16 +25,16 @@ Implement a web app where:
 ### 2.2 High-Level Flow
 1. The browser loads the SwiftWASM bundle and page HTML.
 2. The app reads the page context from the mount element.
-3. If session storage already contains an image URL for the same page path and page type, the app reuses that URL and skips the API call.
+3. If session storage already contains an image URL for the same page path, page type, and UTC day, the app reuses that URL and skips the API call.
 4. Otherwise, the app calls `POST <API_URL>` with page context.
 5. The server derives the client IP from proxy forwarding headers, preferring `X-Real-IP` when present and otherwise falling back to `X-Forwarded-For`, then looks up the origin country with `country.is`.
-6. The server validates input and checks for a stable page-cache key derived from page context and resolved country before considering a new generation.
+6. The server validates input and checks for a daily page-cache key derived from the current UTC date, page context, and resolved country before considering a new generation.
 7. If the page-cache key already exists, the server returns that image immediately.
 8. Otherwise, the server counts generated PNG objects already present under the current UTC day prefix in S3 to decide whether its soft daily generation budget has remaining capacity.
-9. If budget remains, the server creates a fresh unique dated image key, builds a country-aware prompt when country lookup succeeded, calls OpenAI, uploads the PNG to S3, writes the same image to the stable page-cache key, and returns `200 OK`.
-10. If the daily budget is exhausted, the server selects a random existing generated PNG from S3, copies it to the stable page-cache key, and returns `200 OK` with that page-cache image instead.
-9. The app swaps the placeholder image source to the returned or cached URL.
-10. On successful API responses, the app stores the returned image URL in session storage for future visits to the same page in the current browser session.
+9. If budget remains, the server creates a fresh unique dated image key, builds a country-aware prompt when country lookup succeeded, calls OpenAI, uploads the PNG to S3, writes the same image to the daily page-cache key, and returns `200 OK`.
+10. If the daily budget is exhausted, the server selects a random existing generated PNG from S3, copies it to the daily page-cache key, and returns `200 OK` with that page-cache image instead.
+11. The app swaps the placeholder image source to the returned or cached URL.
+12. On successful API responses, the app stores the returned image URL in session storage with the current UTC date for future visits to the same page on the same UTC day in the current browser session.
 
 ### 2.3 Published SwiftWASM Assets
 - The `BytesizedCafe` SwiftWASM package is built into the repo-root `bytesized-cafe-app/` directory.
@@ -58,17 +59,17 @@ The backend derives the public image origin from `GENERATED_IMAGES_BUCKET` and `
 - Freshly generated image:
   - `{IMAGE_GEN_PREFIX}/{YYYY}/{MM}/{DD}/{UUID}-{country-slug}.png` when the request country is known
   - `{IMAGE_GEN_PREFIX}/{YYYY}/{MM}/{DD}/{UUID}.png` when the request country is not known
-- Stable page-cache image:
-  - `{IMAGE_GEN_PREFIX}/page-cache/{pageType}/{normalized-page-path}-{country-slug}.png` when the request country is known
-  - `{IMAGE_GEN_PREFIX}/page-cache/{pageType}/{normalized-page-path}-anywhere.png` when the request country is not known
+- Daily page-cache image:
+  - `{IMAGE_GEN_PREFIX}/page-cache/{YYYY}/{MM}/{DD}/{pageType}/{normalized-page-path}-{country-slug}.png` when the request country is known
+  - `{IMAGE_GEN_PREFIX}/page-cache/{YYYY}/{MM}/{DD}/{pageType}/{normalized-page-path}-anywhere.png` when the request country is not known
 - Random fallback image:
-  - Prefer an existing PNG under `IMAGE_GEN_PREFIX/` whose key ends in the current request's `-{country-slug}.png`
-  - Fall back to any existing PNG under `IMAGE_GEN_PREFIX/` when no country-matching image is available
+  - Prefer an existing PNG under the current UTC date prefix whose key ends in the current request's `-{country-slug}.png`
+  - Fall back to any existing PNG under the current UTC date prefix when no country-matching image is available
 
 Rules:
 - Fresh generation keys must not be derived from page context.
-- Stable page-cache keys must be derived from page context and resolved country.
-- API responses should prefer the stable page-cache key whenever one exists or is created during the request.
+- Daily page-cache keys must be derived from the current UTC date, page context, and resolved country.
+- API responses should prefer the daily page-cache key whenever one exists or is created during the request.
 
 ### 3.4 Object Metadata
 When uploading a freshly generated image:
@@ -117,13 +118,13 @@ Response:
 
 ```json
 {
-  "url": "https://<public-base-domain>/generated/v2/page-cache/article/posts/example-article-france.png"
+  "url": "https://<public-base-domain>/generated/v2/page-cache/2026/04/23/article/posts/example-article-france.png"
 }
 ```
 
 Rules:
 - `url` is the final public image URL and must use the generated-images bucket public origin.
-- The response may return a stable per-page cache key when the page already has an assigned image.
+- The response may return a daily per-page cache key when the page already has an assigned image for the current UTC day.
 - Return `200` only after the image has been uploaded successfully or a random fallback image has been selected successfully.
 - Invalid input returns `4xx`.
 - If the daily budget is exhausted and no fallback image exists, return `503`.
@@ -136,7 +137,7 @@ Rules:
 - Encapsulate S3 operations behind one `S3ImageStore` client object that owns the bucket configuration and AWS client lifecycle for image upload and lookup operations.
 - Resolve the client IP address by preferring `X-Real-IP` when present and otherwise falling back to `X-Forwarded-For`.
 - Look up the request origin country with `https://api.country.is/{ip}` and convert the returned region code into an English country name when available.
-- Derive a stable page-cache key from page context and resolved country, and return it immediately when that object already exists in S3.
+- Derive a daily page-cache key from the current UTC date, page context, and resolved country, and return it immediately when that object already exists in S3.
 - Check the soft daily generation budget by counting PNG objects already present under the current UTC date prefix in S3.
 - Build the public `url`.
 - When budget remains:
@@ -147,21 +148,21 @@ Rules:
   - Fall back to the same prompt structure scoped to somewhere in the world when the client IP or country cannot be resolved.
   - Call the OpenAI image generation API with model `gpt-image-1.5`.
   - Upload the PNG to the generated image key used for the dated generation pool.
-  - Upload the same PNG to the stable page-cache key.
+  - Upload the same PNG to the daily page-cache key.
   - Return the page-cache `url`.
 - When budget is exhausted:
-  - Prefer a random existing generated PNG key from S3 whose key suffix matches the current request country.
-  - Fall back to a random existing generated PNG key from S3 when no country-matching key is available.
-  - Copy the selected fallback image to the stable page-cache key without calling OpenAI.
+  - Prefer a random existing generated PNG key from the current UTC date prefix whose key suffix matches the current request country.
+  - Fall back to a random existing generated PNG key from the current UTC date prefix when no country-matching key is available.
+  - Copy the selected fallback image to the daily page-cache key without calling OpenAI.
   - Return the page-cache `url`.
 
 ## 7. Frontend Behavior
 - Show a loading placeholder immediately.
 - Read page context from the mount element.
-- If session storage contains a URL for the same page path and page type, reuse that URL and skip the API call.
+- If session storage contains a URL for the same page path, page type, and UTC day, reuse that URL and skip the API call.
 - Otherwise, start a single `POST` request to the configured API URL.
 - When the request succeeds, swap the placeholder image source to the returned `url`.
-- Persist the returned image URL in session storage keyed to the current page so the next same-session visit of that page can reuse it.
+- Persist the returned image URL in session storage keyed to the current page and UTC day so the next same-session visit of that page can reuse it only until the UTC day changes.
 
 ## 8. Environment Variables
 
@@ -187,14 +188,15 @@ Local repo tooling may provide `BACKEND_HOST` and `BACKEND_PORT` as aliases for 
 
 ## 9. Validation
 The implementation is considered complete when:
-- A same-session revisit of the same page reuses the last returned image URL from session storage without making a new backend request.
-- A backend request for a page that already has a stable page-cache object returns that existing image URL without making a new OpenAI request.
+- A same-session revisit of the same page on the same UTC day reuses the last returned image URL from session storage without making a new backend request.
+- A same-session revisit of the same page after the UTC day changes makes a backend request instead of reusing yesterday's session-storage URL.
+- A backend request for a page that already has a daily page-cache object returns that existing image URL without making a new OpenAI request.
 - The backend returns `200` only after a fresh image upload succeeds or a random fallback image has been selected.
 - When the daily budget is exhausted, the backend returns a random existing generated image instead of making a new OpenAI request.
 - Fresh generations use the request origin country in the prompt when the server can resolve it from the client IP, and otherwise fall back to the generic worldwide prompt.
 - Fresh generations include a country slug suffix in the image key when the request country is known.
 - When the daily budget is exhausted, fallback selection prefers existing images whose keys match the current request country and otherwise falls back to any existing image.
-- The backend persists deterministic per-page cache keys separately from the dated generation pool.
+- The backend persists deterministic daily per-page cache keys separately from the dated generation pool.
 
 ## 10. Deployment
 
@@ -223,3 +225,4 @@ The implementation is considered complete when:
 - The repo's Swift package manifests target Swift tools version `6.3`, the macOS GitHub Actions job installs Swift `6.3.0`, and the SwiftWasm site build uses the compatible `swift-6.3-RELEASE` SDK tag.
 - `Scripts/run-local.sh` provides a one-command local stack for development and opens the local site in the default browser after the backend and static site server are ready.
 - The script rebuilds the `BytesizedCafe` SwiftWASM bundle, regenerates the site with `BYTESIZED_CAFE_API_URL` pointed at a localhost backend, prebuilds the backend to avoid counting SwiftPM compilation against the startup timeout, starts the Hummingbird server, and serves `Output/` over a local static HTTP server.
+- `Scripts/build-bytesized-cafe-app.sh` prefers a SwiftWASM SDK ID matching the active `swift --version` release when multiple WASM SDKs are installed; `SWIFT_WASM_SDK_ID` or `SWIFT_SDK_ID` can still override the auto-detected SDK.

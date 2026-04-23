@@ -35,6 +35,7 @@ struct ImageGenService: Sendable {
         let countrySuffix = keyFactory.countryKeySuffix(countryName: countryName)
         let pageImageKey = keyFactory.pageImageKey(
             prefix: environment.generatedImagesPrefix,
+            date: currentDate,
             context: request.context,
             countryName: countryName
         )
