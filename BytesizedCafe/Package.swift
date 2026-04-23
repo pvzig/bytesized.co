@@ -11,8 +11,8 @@ let package = Package(
         .executable(name: "BytesizedCafe", targets: ["BytesizedCafe"])
     ],
     dependencies: [
-        .package(url: "https://github.com/swiftwasm/JavaScriptKit.git", from: "0.46.5"),
-        .package(url: "https://github.com/pvzig/parcel", from: "0.2.0"),
+        .package(url: "https://github.com/swiftwasm/JavaScriptKit.git", from: "0.50.2"),
+        .package(url: "https://github.com/pvzig/parcel", from: "0.2.1"),
     ],
     targets: [
         .executableTarget(
