@@ -142,9 +142,11 @@ Rules:
 - Build the public `url`.
 - When budget remains:
   - Generate a fresh unique image key.
-  - Build the prompt as a single random dish popular in the request country.
+  - Build the prompt as one randomly chosen prepared dish, snack, pastry, or street food genuinely eaten in the request country.
   - Include a normalized `-{country-slug}` suffix in the generated key when country lookup succeeds.
-  - Instruct the model to prefer specific, visually distinct local dishes over generic national defaults, and to avoid repeatedly defaulting to globally common fast food unless it is genuinely the random choice.
+  - Instruct the model to prefer specific regional, city, market, bakery, holiday, breakfast, dessert, or home-cooked foods over the first national stereotype.
+  - Instruct the model to show exactly one hero food item with no combo meals, side dishes, drinks, menus, flags, labels, or text.
+  - Instruct the model to avoid defaulting to globally common fast food such as hamburgers, fries, pizza, or hot dogs unless the subject is a distinctive named local variation.
   - Fall back to the same prompt structure scoped to somewhere in the world when the client IP or country cannot be resolved.
   - Call the OpenAI image generation API with model `gpt-image-1.5`.
   - Upload the PNG to the generated image key used for the dated generation pool.
@@ -194,6 +196,7 @@ The implementation is considered complete when:
 - The backend returns `200` only after a fresh image upload succeeds or a random fallback image has been selected.
 - When the daily budget is exhausted, the backend returns a random existing generated image instead of making a new OpenAI request.
 - Fresh generations use the request origin country in the prompt when the server can resolve it from the client IP, and otherwise fall back to the generic worldwide prompt.
+- Fresh generation prompts ask for one specific, non-stereotyped hero food item and discourage generic fast-food defaults and combo meals.
 - Fresh generations include a country slug suffix in the image key when the request country is known.
 - When the daily budget is exhausted, fallback selection prefers existing images whose keys match the current request country and otherwise falls back to any existing image.
 - The backend persists deterministic daily per-page cache keys separately from the dated generation pool.
