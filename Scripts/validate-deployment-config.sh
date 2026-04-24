@@ -19,6 +19,10 @@ require_command() {
 require_command docker
 require_command ruby
 
+echo "Validating deployment shell scripts..."
+bash -n "${ROOT_DIR}/Scripts/deploy-site.sh"
+bash -n "${ROOT_DIR}/Scripts/build-bytesized-cafe-app.sh"
+
 if [[ ! -f "${BACKEND_DOCKERFILE}" ]]; then
     echo "Expected backend Dockerfile at ${BACKEND_DOCKERFILE}." >&2
     exit 1

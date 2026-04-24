@@ -40,6 +40,7 @@ Implement a web app where:
 - The `BytesizedCafe` SwiftWASM package is built into the repo-root `bytesized-cafe-app/` directory.
 - The site generator publishes that directory at `/bytesized-cafe-app/`.
 - Published asset paths must preserve the generated nested package layout, including `/bytesized-cafe-app/platforms/browser.js`.
+- Production deploys upload `/bytesized-cafe-app/BytesizedCafe.wasm` as gzipped content at the canonical `.wasm` key with `Content-Type: application/wasm`, `Content-Encoding: gzip`, and long-lived immutable caching.
 
 ## 3. S3 Design
 
@@ -220,6 +221,7 @@ The implementation is considered complete when:
 - GitHub Actions repository variables and secrets are the source of truth for the backend runtime variables `GENERATED_IMAGES_BUCKET`, `OPENAI_API_KEY`, `OPENAI_IMAGE_MODEL`, `IMAGE_GEN_PREFIX`, `AWS_REGION`, `AWS_ACCESS_KEY_ID`, and `AWS_SECRET_ACCESS_KEY`.
 - The backend deploy workflow sets `HOST=0.0.0.0` and `PORT=8080` in Railway by default, unless the deploy job overrides `RAILWAY_RUNTIME_HOST` or `RAILWAY_RUNTIME_PORT`.
 - The site deploy job continues to sync `Output/` to S3 using a fixed `BYTESIZED_CAFE_API_URL`.
+- The site deploy script excludes the raw SwiftWASM binary from the bulk sync, gzips it locally, and uploads the compressed bytes back to `bytesized-cafe-app/BytesizedCafe.wasm` with explicit wasm content metadata.
 - Paginated archive links use the literal deployed object paths under `/page/<n>/index.html` because the production S3 and CloudFront setup does not rewrite clean directory URLs to nested `index.html` objects.
 - After the S3 sync completes, the site deploy job invalidates the production CloudFront distribution with `CLOUDFRONT_DISTRIBUTION_ID` for `/`, `/index.html`, `/page/*`, `/posts/*`, `/feed.rss`, `/bytesized-cafe-app/*`, `/css/*`, `/images/*`, and `/fonts/*`.
 
@@ -229,3 +231,5 @@ The implementation is considered complete when:
 - `Scripts/run-local.sh` provides a one-command local stack for development and opens the local site in the default browser after the backend and static site server are ready.
 - The script rebuilds the `BytesizedCafe` SwiftWASM bundle, regenerates the site with `BYTESIZED_CAFE_API_URL` pointed at a localhost backend, prebuilds the backend to avoid counting SwiftPM compilation against the startup timeout, starts the Hummingbird server, and serves `Output/` over a local static HTTP server.
 - `Scripts/build-bytesized-cafe-app.sh` prefers a SwiftWASM SDK ID matching the active `swift --version` release when multiple WASM SDKs are installed; `SWIFT_WASM_SDK_ID` or `SWIFT_SDK_ID` can still override the auto-detected SDK.
+- `Scripts/build-bytesized-cafe-app.sh` requires Binaryen's `wasm-opt`; PackageToJS performs its release optimization pass and the repo script follows with a final size-focused `wasm-opt -Oz` pass before the site generator copies the bundle into `Output/`.
+- Changes to shared browser dependencies such as Parcel must be validated through `just wasm` against the nested `BytesizedCafe` package; a green top-level `swift run bytesized` build alone does not prove the SwiftWASM app still resolves and compiles.

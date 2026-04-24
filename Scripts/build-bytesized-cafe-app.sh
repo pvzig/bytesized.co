@@ -11,6 +11,23 @@ SDK_LIST="$(swift sdk list)"
 SWIFT_WASM_SDK_ID="${SWIFT_WASM_SDK_ID:-${SWIFT_SDK_ID:-}}"
 SWIFT_VERSION="$(swift --version | sed -n '1s/.*Swift version \([0-9][0-9.]*\).*/\1/p')"
 PREFERRED_SWIFT_WASM_SDK_ID=""
+WASM_OUTPUT_PATH="${OUTPUT_DIR}/${PRODUCT_NAME}.wasm"
+
+require_command() {
+    local command_name="$1"
+
+    if ! command -v "${command_name}" >/dev/null 2>&1; then
+        echo "Required command '${command_name}' is not installed or not on PATH." >&2
+        exit 1
+    fi
+}
+
+format_bytes() {
+    local path="$1"
+    wc -c < "${path}" | tr -d ' '
+}
+
+require_command wasm-opt
 
 if [[ -n "${SWIFT_VERSION}" ]]; then
     PREFERRED_SWIFT_WASM_SDK_ID="swift-${SWIFT_VERSION}-RELEASE_wasm"
@@ -45,3 +62,24 @@ fi
 
 cp -R "${PACKAGE_OUTPUT_DIR}/." "${OUTPUT_DIR}"
 popd >/dev/null
+
+if [[ ! -f "${WASM_OUTPUT_PATH}" ]]; then
+    echo "Expected wasm artifact at ${WASM_OUTPUT_PATH}." >&2
+    exit 1
+fi
+
+ORIGINAL_WASM_SIZE="$(format_bytes "${WASM_OUTPUT_PATH}")"
+OPTIMIZED_WASM_PATH="$(mktemp "${OUTPUT_DIR}/${PRODUCT_NAME}.wasm.XXXXXX")"
+trap 'rm -f "${OPTIMIZED_WASM_PATH}"' EXIT
+
+wasm-opt \
+    -Oz \
+    --strip-debug \
+    --strip-producers \
+    "${WASM_OUTPUT_PATH}" \
+    -o "${OPTIMIZED_WASM_PATH}"
+
+mv "${OPTIMIZED_WASM_PATH}" "${WASM_OUTPUT_PATH}"
+OPTIMIZED_WASM_SIZE="$(format_bytes "${WASM_OUTPUT_PATH}")"
+
+echo "Optimized ${PRODUCT_NAME}.wasm with Binaryen: ${ORIGINAL_WASM_SIZE} -> ${OPTIMIZED_WASM_SIZE} bytes"

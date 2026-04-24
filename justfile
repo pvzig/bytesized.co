@@ -30,8 +30,7 @@ backend:
     swift run --package-path Backend Server
 
 site-deploy:
-    test -n "${AWS_S3_BUCKET:-}" || (echo "Missing AWS_S3_BUCKET. Set it in .ENV or your shell." >&2; exit 1)
-    aws s3 sync Output/ "s3://${AWS_S3_BUCKET}" --delete --exclude ".DS_Store"
+    ./Scripts/deploy-site.sh
 
 local:
     ./Scripts/run-local.sh
