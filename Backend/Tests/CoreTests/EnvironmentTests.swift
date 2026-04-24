@@ -11,7 +11,7 @@ struct EnvironmentTests {
                 "HOST": "127.0.0.1",
                 "IMAGE_GEN_PREFIX": "/generated/v2/",
                 "OPENAI_API_KEY": "secret",
-                "OPENAI_IMAGE_MODEL": "gpt-image-1.5",
+                "OPENAI_IMAGE_MODEL": "gpt-image-2",
                 "PORT": "8080",
             ]
         )
@@ -21,7 +21,7 @@ struct EnvironmentTests {
         #expect(environment.generatedImagesPrefix == "generated/v2")
         #expect(environment.hostname == "127.0.0.1")
         #expect(environment.openAIAPIKey == "secret")
-        #expect(environment.openAIModel == "gpt-image-1.5")
+        #expect(environment.openAIModel == "gpt-image-2")
         #expect(environment.port == 8080)
     }
 
@@ -34,7 +34,7 @@ struct EnvironmentTests {
                 "GENERATED_IMAGES_BUCKET": "bytesized-generated-images",
                 "IMAGE_GEN_PREFIX": "generated/v2",
                 "OPENAI_API_KEY": "secret",
-                "OPENAI_IMAGE_MODEL": "gpt-image-1.5",
+                "OPENAI_IMAGE_MODEL": "gpt-image-2",
             ]
         )
 
@@ -50,7 +50,7 @@ struct EnvironmentTests {
                     "GENERATED_IMAGES_BUCKET": "bytesized-generated-images",
                     "IMAGE_GEN_PREFIX": "generated/v2",
                     "OPENAI_API_KEY": "secret",
-                    "OPENAI_IMAGE_MODEL": "gpt-image-1.5",
+                    "OPENAI_IMAGE_MODEL": "gpt-image-2",
                     "PORT": "8080",
                 ]
             )
@@ -67,7 +67,7 @@ struct EnvironmentTests {
                     "GENERATED_IMAGES_BUCKET": "bytesized-generated-images",
                     "IMAGE_GEN_PREFIX": "generated/v2",
                     "OPENAI_API_KEY": "secret",
-                    "OPENAI_IMAGE_MODEL": "gpt-image-1.5",
+                    "OPENAI_IMAGE_MODEL": "gpt-image-2",
                 ]
             )
         }

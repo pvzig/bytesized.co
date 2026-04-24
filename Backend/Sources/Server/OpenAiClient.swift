@@ -21,7 +21,6 @@ struct OpenAiClient {
 
     func generateImage(prompt: String) async throws -> Data {
         let payload = ImageGenRequest(
-            background: "transparent",
             model: environment.openAIModel,
             outputFormat: "png",
             prompt: prompt,
