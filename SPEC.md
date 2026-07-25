@@ -22,6 +22,8 @@ entry point.
   generated `Output/` directory as an artifact.
 - The deploy job downloads that artifact, synchronizes it to the configured S3
   bucket, and invalidates the relevant CloudFront paths.
+- S3 object access is controlled by the bucket and CloudFront configuration;
+  deployment must not request per-object public ACLs.
 - Deployment credentials and destination identifiers are supplied through
   GitHub Actions secrets.
 
